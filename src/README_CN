@@ -1,0 +1,8 @@
+main.py  主函数、主流程
+process.py  流程的具体细节
+prompt.py  提示语汇总
+path.py  路径（目录）的操作：判断路径是否有效等
+divide.py  文件分块的代码
+deduplication.py 重复数据删除相关的代码
+sync.py  同步相关的代码
+
