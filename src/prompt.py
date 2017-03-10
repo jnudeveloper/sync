@@ -4,7 +4,7 @@
 # 脚本开始时的提示语
 prompt_init = """
 欢迎使用xxx
-1. 本地和U盘都存在项目，开始同步
+1. 本地和U盘都存在项目
 2. 本地存在项目，U盘不存在项目
 3. U盘存在项目，本地不存在项目
 4. 本地和U盘都不存在项目
@@ -23,11 +23,23 @@ prompt_local_path = """请输入本地目录："""
 # 提示输入U盘目录
 prompt_usb_path = """请输入U盘目录："""
 
-# 路径无效，提示重新输入：
-prompt_error_path = """您输入的路径无效，请检查后重新输入目录："""
+# 提示重新输入路径：
+prompt_error_path = """请检查后重新输入目录："""
+
+# 路径不存在
+prompt_path_is_not_exist = """输入的路径不存在！\n"""
+
+# 路径不可读
+prompt_path_is_not_readable = """输入的路径不可读！\n"""
+
+# 路径不可写
+prompt_path_is_not_writeable = """输入的路径不可写！\n"""
+
+# 路径不存在项目(不存在synchash文件)，即未初始化
+prompt_sync_hash_file_is_not_exist = """输入的路径不存在项目！\n"""
 
 # 本地目录输入成功
-prompt_path_success = """目录输入成功！"""
+prompt_path_success = """目录输入成功！\n"""
 
 # 选择是否从U盘同步到本地
 prompt_usb_to_local_choose = """是否从U盘同步到本地？（y/n）： """
