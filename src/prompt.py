@@ -35,8 +35,11 @@ prompt_path_is_not_readable = """输入的路径不可读！\n"""
 # 路径不可写
 prompt_path_is_not_writeable = """输入的路径不可写！\n"""
 
-# 路径不存在项目(不存在synchash文件)，即未初始化
+# 路径不存在项目(不存在.synchash文件)，即未初始化
 prompt_sync_hash_file_is_not_exist = """输入的路径不存在项目！\n"""
+
+# usb路径中文件夹名称和本地的不同
+prompt_path_name_is_not_same = """usb路径中文件夹名称和本地的不同！\n"""
 
 # 本地目录输入成功
 prompt_path_success = """目录输入成功！\n"""

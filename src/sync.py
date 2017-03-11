@@ -16,19 +16,24 @@ def sync_copy_tree(src, dst):
                 # 目录不存在时，创建目录
                 os.mkdir(dst_name)
             sync_copy_tree(src_name, dst_name)
-        else:
+        elif name != ".synchash":
+            # 不同步文件 .synchash
             shutil.copy2(src_name, dst_name)
 
 
 # 初始化U盘的目录
 def init_usb():
     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
+    f = open(path.usb_path + os.sep + ".synchash", 'w')
+    f.close()
     pass
 
 
 # 初始化本地的目录
 def init_local():
     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
+    f = open(path.local_path + os.sep + ".synchash", 'w')
+    f.close()
     pass
 
 
@@ -46,4 +51,3 @@ def local_to_usb():
     # shutil.copytree(path.local_path, path.usb_path + os.sep + "sync")
     sync_copy_tree(path.local_path, path.usb_path)  # + os.sep + "sync"
     print "成功把本地的数据传到U盘"
-

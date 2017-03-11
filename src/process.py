@@ -27,25 +27,25 @@ def init_input():
     if num == 1:
         # 本地和U盘都存在项目
         # 获取路径
-        path.local_path = path.get_valid_local_path()
-        path.usb_path = path.get_valid_usb_path()
+        path.local_path = path.get_valid_local_path_with_project()
+        path.usb_path = path.get_valid_usb_path_with_project()
     elif num == 2:
         # 本地存在项目，U盘不存在项目
         # 获取路径
-        path.local_path = path.get_valid_local_path()
-        path.usb_path = path.get_usb_path()
+        path.local_path = path.get_valid_local_path_with_project()
+        path.usb_path = path.get_valid_usb_path()
         sync.init_usb()
     elif num == 3:
         # U盘存在项目，本地不存在项目
         # 获取路径
-        path.local_path = path.get_local_path()
-        path.usb_path = path.get_valid_usb_path()
+        path.local_path = path.get_valid_local_path()
+        path.usb_path = path.get_valid_usb_path_with_project()
         sync.init_local()
     elif num == 4:
         # 本地和U盘都不存在项目
         # 获取路径
-        path.local_path = path.get_local_path()
-        path.usb_path = path.get_usb_path()
+        path.local_path = path.get_valid_local_path()
+        path.usb_path = path.get_valid_usb_path()
         sync.init_usb()
         sync.init_local()
     local_to_usb_choose()
@@ -70,4 +70,3 @@ def local_to_usb_choose():
     else:
         if choose == 'y' or choose == 'Y':
             sync.local_to_usb()
-
