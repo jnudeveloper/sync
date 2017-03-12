@@ -2,49 +2,54 @@
 # coding=utf-8
 # .synchash 文件的hash指纹信息
 import hashlib
+import hash_algorithm
 
-class NameHash(object):
-	def __init__(self,data):
-		self.data=data  # data为文件名字符串
-		self.next_node=None
-		self.flag=0
-		self.hashcode=0
-		self.contentHash=ContentHash(NULL)
 
-	def set_next(self,nameHash):
-		self.next_node=nameHash
+class FileHashList(object):
+    def __init__(self):
+        self.List = []
+        for i in range(hash_algorithm.sync_hash_length):
+            self.List.append(None)
 
-	def get_next(self):
-		return self.next_node
+    def insert(self, fname):
+        filehash = FileHashNode(fname)
+        offset = filehash.get_namehashcode()
+        if self.List[offset] == None:
+            self.List[offset] = filehash
+        else:
+            head = self.List[offset]
+            while head != None:
+                head = head.Next
+            head.set_next(filehash)
 
-	def set_hashcode(self,data):
-		self.hashcode=Hash(data) # Hash 某种hash 函数
 
-	def get_hashcode(self):
-		return hashcode
+class FileHashNode(object):
+    def __init__(self, name):
+        self.Name = name  # name为文件名字符串
+        self.Next = None
+        self.Flag = 0
+        self.Name_Hashcode = 0
+        self.Content_Hashcode = 0
 
-	def get_data(self):
-		return self.data
+    def set_next(self, fileHash):
+        self.Next = fileHash
 
-	def data_equals(self,data):
-		return self.data==data
+    def get_next(self):
+        return self.Next
 
-	def set_flag(self,flag):
-		self.flag=flag;#初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
+    def get_namehashcode(self):
+        self.Name_Hashcode = hash_algorithm.Name_Hash(self.Name)
+        return self.Name_Hashcode
 
-	def get_flag(self):
-		return self.flag
+    def get_contenthashcode(self):
+        self.Content_Hashcode = hash_algorithm.Content_Hash(self.Name)
+        return self.Content_Hashcode
 
-class ContentHash(object):
-	def __init__(self,data):
-		self.data=data
-		self.hashcode=0
+    def get_fname(self):
+        return self.Name
 
-	def set_hashcode(self,data):
-		self.hashcode=Hash(data)# Hash 某种hash 函数
+    def set_flag(self, flag):
+        self.Flag = flag;  # 初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
 
-	def get_hashcode(self):
-		return self.hashcode
-
-	def get_path(self):
-		return path
+    def get_flag(self):
+        return self.Flag
