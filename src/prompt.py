@@ -44,8 +44,3 @@ prompt_path_name_is_not_same = """usb路径中文件夹名称和本地的不同�
 # 本地目录输入成功
 prompt_path_success = """目录输入成功！\n"""
 
-# 选择是否从U盘同步到本地
-prompt_usb_to_local_choose = """是否从U盘同步到本地？（y/n）： """
-
-# 选择是否从本地同步到U盘
-prompt_local_to_usb_choose = """是否从本地同步到U盘？（y/n）： """

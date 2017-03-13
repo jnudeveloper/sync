@@ -22,19 +22,23 @@ def sync_copy_tree(src, dst):
 
 
 # 初始化U盘的目录
-def init_usb():
-    # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
-    f = open(path.usb_path + os.sep + ".synchash", 'w')
+# def init_usb():
+#     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
+#     f = open(path.usb_path + os.sep + ".synchash", 'w')
+#     f.close()
+#     pass
+#
+#
+# # 初始化本地的目录
+# def init_local():
+#     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
+#     f = open(path.local_path + os.sep + ".synchash", 'w')
+#     f.close()
+#     pass
+# 上面两个函数不要了，直接用下面一个函数即可
+def init_project(sync_path):
+    f = open(sync_path + os.sep + ".synchash", 'w')
     f.close()
-    pass
-
-
-# 初始化本地的目录
-def init_local():
-    # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
-    f = open(path.local_path + os.sep + ".synchash", 'w')
-    f.close()
-    pass
 
 
 # 把U盘的数据传到本地
