@@ -35,7 +35,7 @@ class FileHashList(object):
     # 根据文件名把FileHashNode对象存入到哈希数组链表中的适当位置
     def insert(self, fname):
         filehash = FileHashNode(fname)
-        offset = filehash.get_namehashcode()
+        offset = hash_algorithm.Hash_Offset(fname)
         if self.List[offset] == None:
             self.List[offset] = filehash
         else:
@@ -44,7 +44,7 @@ class FileHashList(object):
                 head = head.Next
             head.set_next(filehash)
 
-    # *根据文件名的hash值在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
+    # *根据文件名在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
     def find_by_hash(self, hashcode):
         return None
 
@@ -62,8 +62,8 @@ class FileHashNode(object):
         self.Name = name  # name为文件名字符串
         self.Next = None
         self.Flag = 0
-        self.Name_Hashcode = 0
-        self.Content_Hashcode = 0
+        self.Name_Hashcode = hash_algorithm.Name_Hash(self.Name)
+        self.Content_Hashcode = hash_algorithm.Content_Hash(self.Name)
 
     def set_next(self, fileHash):
         self.Next = fileHash
@@ -72,18 +72,16 @@ class FileHashNode(object):
         return self.Next
 
     def get_namehashcode(self):
-        self.Name_Hashcode = hash_algorithm.Name_Hash(self.Name)
         return self.Name_Hashcode
 
     def get_contenthashcode(self):
-        self.Content_Hashcode = hash_algorithm.Content_Hash(self.Name)
         return self.Content_Hashcode
 
     def get_fname(self):
         return self.Name
 
     def set_flag(self, flag):
-        self.Flag = flag;  # 初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
+        self.Flag = flag  # 初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
 
     def get_flag(self):
         return self.Flag
