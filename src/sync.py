@@ -55,3 +55,33 @@ def local_to_usb():
     # shutil.copytree(path.local_path, path.usb_path + os.sep + "sync")
     sync_copy_tree(path.local_path, path.usb_path)  # + os.sep + "sync"
     print "成功把本地的数据传到U盘"
+
+
+# *流程1中的pull操作
+def pull():
+    return 1
+
+
+# *流程1中的push操作
+def push():
+    return 1
+
+
+# *移动文件到U盘,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
+def move_to_udisk(path, sync_path):
+    return 1
+
+
+# *移动文件到本地,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
+def move_to_local(path, sync_path):
+    return 1
+
+
+# *删除U盘中的文件,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
+def delete_from_udisk(path,sync_path):
+    return 1
+
+
+# *删除本地中的文件,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
+def delete_from_local(path,sync_path):
+    return 1
