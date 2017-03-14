@@ -45,7 +45,7 @@ class FileHashList(object):
             head.set_next(filehash)
 
     # *根据文件名在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
-    def find_by_hash(self, hashcode):
+    def find_by_hash(self, fname):
         return None
 
     # *遍历哈希数组链表，将所有的FileHashNode的flag置0,成功后返回True
