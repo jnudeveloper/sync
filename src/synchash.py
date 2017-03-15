@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
 # .synchash 文件的hash指纹信息
-import hashlib
 import hash_algorithm
 
 
@@ -44,17 +43,37 @@ class FileHashList(object):
                 head = head.Next
             head.set_next(filehash)
 
-    # *根据文件名在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
-    def find_by_hash(self, fname):
+    # 根据文件名在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
+    def find_by_filename(self, fname):
+        offset = hash_algorithm.Hash_Offset(fname)
+        node = self.List[offset]
+        namehash = hash_algorithm.Name_Hash(fname)
+        while node != None:
+            if namehash == node.get_namehashcode():
+                return node
+            else:
+                node = node.Next
         return None
 
-    # *遍历哈希数组链表，将所有的FileHashNode的flag置0,成功后返回True
+    # 遍历哈希数组链表，将所有的FileHashNode的flag置0,成功后返回True
     def set_zero_flag(self):
+        for i in range(hash_algorithm.sync_hash_length):
+            node = self.List[i]
+            while node != None:
+                node.Flag = 0
+                node = node.Next
         return True
 
-    # *遍历哈希数组链表，返回所有flag为0的FileHashNode是对应的文件名（即no_in_local数组）
+    # 遍历哈希数组链表，返回所有flag为0的FileHashNode相对应的文件名（即no_in_local数组）
     def get_no_in_local(self):
-        return 1
+        no_in_local = []
+        for i in range(hash_algorithm.sync_hash_length):
+            node = self.List[i]
+            while node != None:
+                if node.Flag == 0:
+                    no_in_local.append(node.get_fname)
+                node = node.Next
+        return no_in_local
 
 
 class FileHashNode(object):
