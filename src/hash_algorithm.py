@@ -8,22 +8,21 @@ sync_hash_length = 16 ** hash_sub_string_length
 
 
 # 计算文件名的哈希值
-def get_name_hash(filename):
+def get_name_hashcode(filename):
     hash_md5 = hashlib.md5(filename)
     return hash_md5.hexdigest()
 
 
-# 根据文件名计算文件在哈希数组中的偏移量
-def get_hash_offset(filename):
-    filename_md5 = get_name_hash(filename)
+# 根据文件名hash计算文件在哈希数组中的偏移量
+def get_hash_offset(name_hashcode):
     random_char_num = math.log(sync_hash_length, 16)
-    hash_print = filename_md5[-int(random_char_num):]
+    hash_print = name_hashcode[-int(random_char_num):]
     offset = int(hash_print, 16)  # 该文件在sync_hash 中的位置
     return offset
 
 
 # 计算文件的MD5值 32位16进制
-def get_content_hash(filename):
+def get_content_hashcode(filename):
     m = hashlib.md5()
     with open(filename, "rb") as file_stream:
         for chunk_item in read_chunks(file_stream):

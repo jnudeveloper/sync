@@ -99,6 +99,7 @@ def is_current_dir_same(path):
 
 # 获取本地目录
 # 目录存在、可读、可写
+# TODO 路径不能有文件，如果有文件要提示，重新输入
 def get_valid_local_path():
     return get_valid_path(raw_input(prompt.prompt_local_path), "local")
 
@@ -106,6 +107,7 @@ def get_valid_local_path():
 # 获取U盘目录
 # 目录存在、可读、可写
 # 文件夹名称和之请输入的本地文件夹名称一致
+# TODO 路径不能有文件，如果有文件要提示，重新输入
 def get_valid_udisk_path():
     return get_valid_path(raw_input(prompt.prompt_udisk_path), "udisk")
 
@@ -121,6 +123,14 @@ def get_valid_local_path_with_project():
 # 文件夹名称和之请输入的本地文件夹名称一致
 def get_valid_udisk_path_with_project():
     return get_valid_path_with_project(raw_input(prompt.prompt_udisk_path), "udisk")
+
+
+# TODO 获取本地目录
+# TODO 注意：目录可以有文件
+# 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
+def get_valid_local_path_even_had_file():
+    # TODO
+    pass
 
 
 # 循环获取路径，直到路径有效
@@ -145,3 +155,27 @@ def get_valid_path_with_project(path, device_type="local"):
         # 路径有效时, 提示输入成功
         print prompt.prompt_path_success
         return path
+
+
+# 把本地的绝对路径变成相对路径
+def change_local_absolute_path_to_relative_path(absolute_path):
+    # TODO 把本地的绝对路径变成相对路径
+    pass
+
+
+# 把本地的相对路径变成绝对路径
+def change_local_relative_path_to_absolute_path(relative_path):
+    # TODO 把本地的相对路径变成绝对路径
+    pass
+
+
+# 把U盘的绝对路径变成相对路径
+def change_udisk_absolute_path_to_relative_path(absolute_path):
+    # TODO 把本地的绝对路径变成相对路径
+    pass
+
+
+# 把U盘的相对路径变成绝对路径
+def change_udisk_relative_path_to_absolute_path(relative_path):
+    # TODO 把本地的相对路径变成绝对路径
+    pass

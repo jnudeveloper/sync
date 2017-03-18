@@ -21,21 +21,7 @@ def sync_copy_tree(src, dst):
             shutil.copy2(src_name, dst_name)
 
 
-# 初始化U盘的目录
-# def init_udisk():
-#     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
-#     f = open(path.udisk_path + os.sep + ".synchash", 'w')
-#     f.close()
-#     pass
-#
-#
-# # 初始化本地的目录
-# def init_local():
-#     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
-#     f = open(path.local_path + os.sep + ".synchash", 'w')
-#     f.close()
-#     pass
-# 上面两个函数不要了，直接用下面一个函数即可
+# 初始化目录,新建.synchash文件
 def init_project(sync_path):
     f = open(sync_path + os.sep + ".synchash", 'w')
     f.close()
@@ -68,27 +54,37 @@ def push():
 
 
 # TODO 移动文件到U盘,relative_path是相对同步根目录的路径
-def move_to_udisk(relative_pathh):
+def move_to_udisk(relative_path):
     return 1
 
 
 # TODO 移动文件到本地,relative_path是相对同步根目录的路径
-def move_to_local(relative_pathh):
+def move_to_local(relative_path):
     return 1
 
 
 # TODO 删除U盘中的文件,relative_path是相对同步根目录的路径
-def delete_from_udisk(relative_pathh):
+def delete_from_udisk(relative_path):
     return 1
 
 
 # TODO 删除本地中的文件,relative_path是相对同步根目录的路径
-def delete_from_local(relative_pathh):
+def delete_from_local(relative_path):
     return 1
 
 
-# TODO 递归扫描本地目录生成哈希数组链表,执行成功后返回一个哈希数组链表
-def create_file_hash_list_by_scan_directory(path):
+# TODO 递归扫描本地目录,将每一个扫描到的文件加入到sync_hash,并把该文件同步到U盘,生成哈希数组链表,执行成功后返回一个哈希数组链表
+def set_file_hash_list_and_sync_to_udisk():
+    return 1
+
+
+# TODO 递归扫描本地目录,将每一个扫描到的文件加入到sync_hash,生成哈希数组链表,执行成功后返回一个哈希数组链表
+def set_file_hash_list():
+    pass
+
+
+# TODO 遍历U盘的sync_hash文件， 将U盘的所有文件同步到本地
+def traverse_file_hash_list_and_sync_to_local():
     return 1
 
 
@@ -100,3 +96,19 @@ def init_file_hash_list_by_deserialization(path):
 # TODO 将哈希数组链表序列化
 def serialize_file_hash_list(file_hash_list, path):
     return 1
+
+
+# TODO 递归扫描本地同步目录，计算diff、 delete_in_local、 add_in_local数组
+# TODO 为push操作计算3个数组
+def compute_for_push():
+    pass
+
+
+# TODO 递归扫描本地同步目录，计算diff数组
+def compute_diff_for_pull():
+    pass
+
+
+# TODO 遍历sync_hash_local和sync_hash_udisk，计算delete_in_other、 add_in_other 数组
+def compute_other_for_pull():
+    pass

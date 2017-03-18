@@ -63,7 +63,7 @@ def run():
     elif num == 4:
         # 本地和U盘都不存在项目
         # 获取路径
-        path.local_path = path.get_valid_local_path()
+        path.local_path = path.get_valid_local_path_even_had_file()
         path.udisk_path = path.get_valid_udisk_path()
         # 初始化本地目录
         sync.init_project(path.local_path)
@@ -77,6 +77,16 @@ def run():
 
 # 反序列化sync_hash并结束程序
 def safe_exit():
-    # TODO 反序列化sync_hash
+    # TODO 反序列化sync_hash,直接调用函数
     print("程序正常结束\n")
     exit(0)
+
+
+# TODO 询问是否需要push
+def ask_push():
+    pass
+
+
+# TODO 询问是否需要pull
+def ask_pull():
+    pass
