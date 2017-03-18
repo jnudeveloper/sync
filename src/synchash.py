@@ -4,52 +4,31 @@
 import hash_algorithm
 
 
-# *递归扫描本地目录生成哈希数组链表,执行成功后返回一个哈希数组链表
-def create_filehashlist_by_scan_directory(local_path):
-    return 1
-
-
-# *反序列化U盘上的.synchash文件得到哈希数组链表，并将所有的flag置0后返回该哈希数组链表
-def init_filehashlist_by_deserialization(u_path):
-    return 1
-
-
-# *递归扫描本地同步目录，根据哈希数组链表计算得到数组diff，no_in_local, no_in_udisk
-# *返回计算后的三个数组diff，no_in_local, no_in_udisk
-def compute_sync_list(filehashlist, local_path):
-    return 1
-
-
-# *将哈希数组链表序列化后存储到U盘上,
-def serialize_filehashlist(filehashlist,udisk_path):
-    return 1
-
-
 class FileHashList(object):
     def __init__(self):
-        self.List = []
+        self.list = []
         for i in range(hash_algorithm.sync_hash_length):
-            self.List.append(None)
+            self.list.append(None)
 
     # 根据文件名把FileHashNode对象存入到哈希数组链表中的适当位置
-    def insert(self, fname):
-        filehash = FileHashNode(fname)
-        offset = hash_algorithm.Hash_Offset(fname)
-        if self.List[offset] == None:
-            self.List[offset] = filehash
+    def insert(self, filename):
+        file_hash = FileHashNode(filename)
+        offset = hash_algorithm.get_hash_offset(filename)
+        if self.list[offset] == None:
+            self.list[offset] = file_hash
         else:
-            head = self.List[offset]
+            head = self.list[offset]
             while head != None:
                 head = head.Next
-            head.set_next(filehash)
+            head.set_next(file_hash)
 
     # 根据文件名在哈希数组链表中寻找相应的节点，如果找到，返回该节点，如果没有返回None
     def find_by_filename(self, fname):
-        offset = hash_algorithm.Hash_Offset(fname)
-        node = self.List[offset]
-        namehash = hash_algorithm.Name_Hash(fname)
+        offset = hash_algorithm.get_hash_offset(fname)
+        node = self.list[offset]
+        name_hash = hash_algorithm.get_name_hash(fname)
         while node != None:
-            if namehash == node.get_namehashcode():
+            if name_hash == node.get_namehashcode():
                 return node
             else:
                 node = node.Next
@@ -58,7 +37,7 @@ class FileHashList(object):
     # 遍历哈希数组链表，将所有的FileHashNode的flag置0,成功后返回True
     def set_zero_flag(self):
         for i in range(hash_algorithm.sync_hash_length):
-            node = self.List[i]
+            node = self.list[i]
             while node != None:
                 node.Flag = 0
                 node = node.Next
@@ -68,7 +47,7 @@ class FileHashList(object):
     def get_no_in_local(self):
         no_in_local = []
         for i in range(hash_algorithm.sync_hash_length):
-            node = self.List[i]
+            node = self.list[i]
             while node != None:
                 if node.Flag == 0:
                     no_in_local.append(node.get_fname)
@@ -78,29 +57,29 @@ class FileHashList(object):
 
 class FileHashNode(object):
     def __init__(self, name):
-        self.Name = name  # name为文件名字符串
-        self.Next = None
-        self.Flag = 0
-        self.Name_Hashcode = hash_algorithm.Name_Hash(self.Name)
-        self.Content_Hashcode = hash_algorithm.Content_Hash(self.Name)
+        self.name = name  # name为文件名字符串
+        self.next = None
+        self.flag = 0
+        self.name_hashcode = hash_algorithm.get_name_hash(self.name)
+        self.content_hashcode = hash_algorithm.get_content_hash(self.name)
 
-    def set_next(self, fileHash):
-        self.Next = fileHash
+    def set_next(self, file_hash):
+        self.next = file_hash
 
     def get_next(self):
-        return self.Next
+        return self.next
 
-    def get_namehashcode(self):
-        return self.Name_Hashcode
+    def get_name_hashcode(self):
+        return self.name_hashcode
 
-    def get_contenthashcode(self):
-        return self.Content_Hashcode
+    def get_content_hashcode(self):
+        return self.content_hashcode
 
-    def get_fname(self):
-        return self.Name
+    def get_file_name(self):
+        return self.name
 
     def set_flag(self, flag):
-        self.Flag = flag  # 初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
+        self.flag = flag  # 初始化flag=0  0：本地无此文件 1：本地文件与U盘一致  2：本地文件与U盘不一致  3：U盘无此文件
 
     def get_flag(self):
-        return self.Flag
+        return self.flag

@@ -21,7 +21,7 @@ prompt_choose_again = """您的输入有误，请重新选择: """
 prompt_local_path = """请输入本地目录："""
 
 # 提示输入U盘目录
-prompt_usb_path = """请输入U盘目录："""
+prompt_udisk_path = """请输入U盘目录："""
 
 # 提示重新输入路径：
 prompt_error_path = """请检查后重新输入目录："""
@@ -38,8 +38,8 @@ prompt_path_is_not_writeable = """输入的路径不可写！\n"""
 # 路径不存在项目(不存在.synchash文件)，即未初始化
 prompt_sync_hash_file_is_not_exist = """输入的路径不存在项目！\n"""
 
-# usb路径中文件夹名称和本地的不同
-prompt_path_name_is_not_same = """usb路径中文件夹名称和本地的不同！\n"""
+# udisk路径中文件夹名称和本地的不同
+prompt_path_name_is_not_same = """udisk路径中文件夹名称和本地的不同！\n"""
 
 # 本地目录输入成功
 prompt_path_success = """目录输入成功！\n"""

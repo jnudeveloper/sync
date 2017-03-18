@@ -22,9 +22,9 @@ def sync_copy_tree(src, dst):
 
 
 # 初始化U盘的目录
-# def init_usb():
+# def init_udisk():
 #     # TODO 初始化相关的操作，新建各个需要的目录等等（类似git)
-#     f = open(path.usb_path + os.sep + ".synchash", 'w')
+#     f = open(path.udisk_path + os.sep + ".synchash", 'w')
 #     f.close()
 #     pass
 #
@@ -42,46 +42,61 @@ def init_project(sync_path):
 
 
 # 把U盘的数据传到本地
-def usb_to_local():
+def udisk_to_local():
     # TODO
-    # shutil.copytree(path.usb_path, path.local_path + os.pathsep + "test")
-    sync_copy_tree(path.usb_path, path.local_path)  # + os.sep + "sync"
+    # shutil.copytree(path.udisk_path, path.local_path + os.pathsep + "test")
+    sync_copy_tree(path.udisk_path, path.local_path)  # + os.sep + "sync"
     print "成功把U盘的数据传到本地"
 
 
 # 把本地的数据传到U盘
-def local_to_usb():
+def local_to_udisk():
     # TODO 数据分块、重复数据消除、数据同步
-    # shutil.copytree(path.local_path, path.usb_path + os.sep + "sync")
-    sync_copy_tree(path.local_path, path.usb_path)  # + os.sep + "sync"
+    # shutil.copytree(path.local_path, path.udisk_path + os.sep + "sync")
+    sync_copy_tree(path.local_path, path.udisk_path)  # + os.sep + "sync"
     print "成功把本地的数据传到U盘"
 
 
-# *流程1中的pull操作
+# TODO 流程1中的pull操作
 def pull():
     return 1
 
 
-# *流程1中的push操作
+# TODO 流程1中的push操作
 def push():
     return 1
 
 
-# *移动文件到U盘,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
-def move_to_udisk(path, sync_path):
+# TODO 移动文件到U盘,relative_path是相对同步根目录的路径
+def move_to_udisk(relative_pathh):
     return 1
 
 
-# *移动文件到本地,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
-def move_to_local(path, sync_path):
+# TODO 移动文件到本地,relative_path是相对同步根目录的路径
+def move_to_local(relative_pathh):
     return 1
 
 
-# *删除U盘中的文件,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
-def delete_from_udisk(path,sync_path):
+# TODO 删除U盘中的文件,relative_path是相对同步根目录的路径
+def delete_from_udisk(relative_pathh):
     return 1
 
 
-# *删除本地中的文件,path是相对同步根目录的路径，可以根据sync_sync(之前用户输入的U盘目录和本地目录)得到最终的绝对路径
-def delete_from_local(path,sync_path):
+# TODO 删除本地中的文件,relative_path是相对同步根目录的路径
+def delete_from_local(relative_pathh):
+    return 1
+
+
+# TODO 递归扫描本地目录生成哈希数组链表,执行成功后返回一个哈希数组链表
+def create_file_hash_list_by_scan_directory(path):
+    return 1
+
+
+# TODO 反序列化U盘上的.synchash文件得到哈希数组链表，并将所有的flag置0后返回该哈希数组链表
+def init_file_hash_list_by_deserialization(path):
+    return 1
+
+
+# TODO 将哈希数组链表序列化
+def serialize_file_hash_list(file_hash_list, path):
     return 1
