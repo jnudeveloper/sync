@@ -4,11 +4,11 @@
 
 # 序列化
 def serialize(hash_list, path):
-    # TODO 序列化
+    # TODO 序列化 liguoxiong
     pass
 
 
 # 反序列化
 def deserialize(path):
-    # TODO 反序列化
+    # TODO 反序列化 liguoxiong
     pass

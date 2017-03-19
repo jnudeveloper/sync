@@ -30,12 +30,12 @@ def run():
         # 获取路径
         path.local_path = path.get_valid_local_path_with_project()
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # TODO 反序列化.synchash文件得到哈希数组链表sync_hash
-        # TODO 遍历sync_hash,将每个FileHash中flag置0
-        # TODO 初始化全局数组diff，no_in_local,no_in_udisk
-        # TODO 递归扫描同步目录并计算diff，no_in_local,no_in_udisk中的元素
-        # TODO 选择push/pull
-        # TODO 执行push/pull
+        # TODO 反序列化.synchash文件得到哈希数组链表sync_hash shiweihua
+        # TODO 遍历sync_hash,将每个FileHash中flag置0 shiweihua
+        # TODO 初始化全局数组diff，no_in_local,no_in_udisk shiweihua
+        # TODO 递归扫描同步目录并计算diff，no_in_local,no_in_udisk中的元素 shiweihua
+        # TODO 选择push/pull shiweihua
+        # TODO 执行push/pull shiweihua
         # 执行safe_exit(),反序列化sync_hash并结束程序
         safe_exit()
     elif num == 2:
@@ -45,8 +45,8 @@ def run():
         path.udisk_path = path.get_valid_udisk_path()
         # 初始化U盘目录
         sync.init_project(path.udisk_path)
-        # TODO new一个哈希数组链表sync_hash
-        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘
+        # TODO new一个哈希数组链表sync_hash shiweihua
+        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘 shiweihua
         # 执行safe_exit(),反序列化sync_hash并结束程序
         safe_exit()
     elif num == 3:
@@ -56,8 +56,8 @@ def run():
         path.udisk_path = path.get_valid_udisk_path_with_project()
         # 初始化本地目录
         sync.init_project(path.local_path)
-        # TODO 将U盘上的.synchash文件反序列化为哈希数组链表sync_hash
-        # TODO 遍历sync_hash,对每一个FileHash对象将U盘中的相应文件同步到本地
+        # TODO 将U盘上的.synchash文件反序列化为哈希数组链表sync_hash shiweihua
+        # TODO 遍历sync_hash,对每一个FileHash对象将U盘中的相应文件同步到本地 shiweihua
         # 可以直接结束文件，不需要将sync_hash反序列化
         safe_exit()
     elif num == 4:
@@ -69,24 +69,24 @@ def run():
         sync.init_project(path.local_path)
         # 初始化U盘目录
         sync.init_project(path.udisk_path)
-        # TODO new一个哈希数组链表sync_hash
-        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘
+        # TODO new一个哈希数组链表sync_hash shiweihua
+        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘 shiweihua
         # 执行safe_exit(),反序列化sync_hash并结束程序
         safe_exit()
 
 
 # 反序列化sync_hash并结束程序
 def safe_exit():
-    # TODO 反序列化sync_hash,直接调用函数
+    # TODO 反序列化sync_hash,直接调用函数 shiweihua
     print("程序正常结束\n")
     exit(0)
 
 
-# TODO 询问是否需要push
+# TODO 询问是否需要push liguoxiong
 def ask_push():
     pass
 
 
-# TODO 询问是否需要pull
+# TODO 询问是否需要pull liguoxiong
 def ask_pull():
     pass

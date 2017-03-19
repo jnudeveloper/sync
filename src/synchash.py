@@ -5,8 +5,8 @@ import hash_algorithm
 
 
 class FileHashList(object):
-    # TODO 测试node != None，是否可以这样写
-    # TODO 是否可以显式定义属性
+    # TODO 测试node != None，是否可以这样写 skywhat
+    # TODO 是否可以显式定义属性 skywhat
 
     def __init__(self):
         self.hash_list = []
@@ -61,17 +61,17 @@ class FileHashList(object):
     # 出现异常返回 -1
     # 没有节点返回 -2
     def delete_by_name_hashcode(self, name_hashcode):
-        # TODO 根据相对路径删除节点
+        # TODO 根据相对路径删除节点  skywhat
         pass
 
     # 根据name_hashcode修改content_hashcode
     def change_content_hashcode_by_name_hashcode(self, name_hashcode):
-        # TODO 根据name_hashcode修改content_hashcode
+        # TODO 根据name_hashcode修改content_hashcode  skywhat
         pass
 
     # 根据name_hashcode修改flag
     def change_flag_by_name_hashcode(self, name_hashcode):
-        # TODO 根据name_hashcode修改flag
+        # TODO 根据name_hashcode修改flag  skywhat
         pass
 
 
