@@ -5,8 +5,10 @@ import path
 import shutil
 
 
-# 同步整个目录树，即使目标文件夹已经存在
-def sync_copy_tree(src, dst):
+# TODO 复制整个目录树U盘的.sync文件夹中 liguoxiong
+# TODO 不用复制本地.sync文件夹 liguoxiong
+# TODO 要复制到U盘的.sync文件夹中 liguoxiong
+def sync_copy_tree_to_udisk(src, dst):
     names = os.listdir(src)
     for name in names:
         src_name = os.path.join(src, name)
@@ -15,10 +17,15 @@ def sync_copy_tree(src, dst):
             if not os.path.exists(dst_name):
                 # 目录不存在时，创建目录
                 os.mkdir(dst_name)
-            sync_copy_tree(src_name, dst_name)
+            sync_copy_tree_to_udisk(src_name, dst_name)
         elif name != ".synchash":
             # 不同步文件 .synchash
             shutil.copy2(src_name, dst_name)
+
+
+# TODO 同步U盘的.sync文件夹整个目录树到本地 liguoxiong
+def sync_copy_tree_to_local(src, dst):
+    pass
 
 
 # 初始化目录,新建.synchash文件
@@ -43,72 +50,21 @@ def local_to_udisk():
     print "成功把本地的数据传到U盘"
 
 
-# TODO 流程1中的pull操作 liguoxiong
-def pull():
-    return 1
-
-
-# TODO 流程1中的push操作 liguoxiong
-def push():
-    return 1
-
-
-# TODO 移动文件到U盘,relative_path是相对同步根目录的路径 shiweihua
-def move_to_udisk(relative_path):
-    return 1
-
-
-# TODO 移动文件到本地,relative_path是相对同步根目录的路径 shiweihua
-def move_to_local(relative_path):
-    return 1
-
-
-# TODO 删除U盘中的文件,relative_path是相对同步根目录的路径 shiweihua
-def delete_from_udisk(relative_path):
-    return 1
-
-
-# TODO 删除本地中的文件,relative_path是相对同步根目录的路径 shiweihua
-def delete_from_local(relative_path):
-    return 1
-
-
-# TODO 递归扫描本地目录,将每一个扫描到的文件加入到sync_hash,并把该文件同步到U盘,生成哈希数组链表,执行成功后返回一个哈希数组链表 skywhat
-def set_file_hash_list_and_sync_to_udisk():
-    return 1
-
-
-# TODO 递归扫描本地目录,将每一个扫描到的文件加入到sync_hash,生成哈希数组链表,执行成功后返回一个哈希数组链表 skywhat
-def set_file_hash_list():
+# TODO 根据节点信息，把本地文件移动到U盘 shiweihua
+def move_to_udisk(node):
     pass
 
 
-# TODO 遍历U盘的sync_hash文件， 将U盘的所有文件同步到本地 skywhat
-def traverse_file_hash_list_and_sync_to_local():
-    return 1
-
-
-# TODO 反序列化U盘上的.synchash文件得到哈希数组链表，并将所有的flag置0后返回该哈希数组链表 liguoxiong
-def init_file_hash_list_by_deserialization(path):
-    return 1
-
-
-# TODO 将哈希数组链表序列化 liguoxiong
-def serialize_file_hash_list(file_hash_list, path):
-    return 1
-
-
-# TODO 递归扫描本地同步目录，计算diff、 delete_in_local、 add_in_local数组 liguoxiong
-# TODO 为push操作计算3个数组
-def compute_for_push():
+# TODO 根据节点信息，把U盘文件移动到本地 shiweihua
+def move_to_local(node):
     pass
 
 
-# TODO 递归扫描本地同步目录，计算diff数组 liguoxiong
-def compute_diff_for_pull():
+# TODO 根据节点信息,删除U盘中的文件 shiweihua
+def delete_from_udisk(node):
     pass
 
 
-# TODO 遍历sync_hash_local和sync_hash_udisk，计算delete_in_other、 add_in_other 数组 liguoxiong
-def compute_other_for_pull():
+# TODO 根据节点信息,删除本地中的文件 shiweihua
+def delete_from_local(node):
     pass

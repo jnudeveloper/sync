@@ -112,15 +112,17 @@ def get_valid_udisk_path():
     return get_valid_path(raw_input(prompt.prompt_udisk_path), "udisk")
 
 
-# 获取有效的本地目录
-# 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
+# 获取有效的本地目录（目录存在、可读、可写）
+# 路径存在项目（该路径下存在.sync文件夹，.sync文件夹中有.synchash文件）
+# TODO 李国雄
 def get_valid_local_path_with_project():
     return get_valid_path_with_project(raw_input(prompt.prompt_local_path), "local")
 
 
-# 获取有效的U盘目录
-# 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
+# 获取有效的U盘目录（目录存在、可读、可写）
+# 路径存在项目（该路径下存在.sync文件夹，.sync文件夹中有.synchash文件）
 # 文件夹名称和之请输入的本地文件夹名称一致
+# TODO 李国雄
 def get_valid_udisk_path_with_project():
     return get_valid_path_with_project(raw_input(prompt.prompt_udisk_path), "udisk")
 
@@ -178,4 +180,9 @@ def change_udisk_absolute_path_to_relative_path(absolute_path):
 # 把U盘的相对路径变成绝对路径
 def change_udisk_relative_path_to_absolute_path(relative_path):
     # TODO 把本地的相对路径变成绝对路径  liguoxiong
+    pass
+
+
+# TODO 去掉路径的最后的斜杠 liguoxiong
+def delete_last_slash(apth):
     pass

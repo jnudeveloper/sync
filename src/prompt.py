@@ -2,6 +2,8 @@
 # 提示语汇总
 
 # 脚本开始时的提示语
+
+# TODO 变成7个选项 liguoxiong
 prompt_init = """
 欢迎使用xxx
 1. 本地和U盘都存在项目

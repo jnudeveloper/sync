@@ -37,26 +37,6 @@ class FileHashList(object):
                 node = node.get_next_node()
         return None
 
-    # 遍历哈希数组链表，将所有的FileHashNode的flag置0,成功后返回True
-    def reset_flag(self):
-        for i in range(hash_algorithm.sync_hash_length):
-            node = self.hash_list[i]
-            while node != None:
-                node.set_flag(0)
-                node = node.get_next_node()
-        return True
-
-    # 遍历哈希数组链表，返回所有flag为0的FileHashNode相对应的文件名（即delete_in_local数组）
-    def get_no_in_local(self):
-        delete_in_local = []
-        for i in range(hash_algorithm.sync_hash_length):
-            node = self.hash_list[i]
-            while node != None:
-                if node.get_flag() == 0:
-                    delete_in_local.append(node)
-                node = node.get_next_node()
-        return delete_in_local
-
     # 根据文件名hash删除节点
     # 出现异常返回 -1
     # 没有节点返回 -2
@@ -79,7 +59,6 @@ class FileHashNode(object):
     def __init__(self, path):
         self.path = path  # path为相对路径
         self.nextNode = None  # 下一节点
-        self.flag = 0  # 标志位，用于同步. 0: 在本地该文件已被删除；1：在本地该文件未被删除
         self.name_hashcode = hash_algorithm.get_name_hashcode(self.path)  # 文件名hash值
         self.content_hashcode = hash_algorithm.get_content_hashcode(self.path)  # 文件内容hash值
 
@@ -107,8 +86,11 @@ class FileHashNode(object):
     def set_path(self, path):
         self.path = path
 
-    def set_flag(self, flag):
-        self.flag = flag
+    # TODO 判断该节点的content_hash是否和传入的节点相同 skywhat
+    def is_equal_content_hash(self, node):
+        pass
 
-    def get_flag(self):
-        return self.flag
+
+# TODO 遍历本地目录，填充一个sync_hash数组链表 skywhat
+def fill_sync_hash_list(sync_hash_list):
+    pass

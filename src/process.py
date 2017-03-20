@@ -7,6 +7,7 @@ import sync
 
 # 脚本开始时获取用户输入，进入不同的状态
 def run():
+    # TODO 变成7个选项 liguoxiong
     print prompt.prompt_init
     num = raw_input(prompt.prompt_init_choose)
     # 获取用户输入，直到输入正确
@@ -17,76 +18,74 @@ def run():
         else:
             # 输入为数字字符，字符转换成数
             num = int(num)
-            if num == 1 or num == 2 or num == 3 or num == 4:
+            # TODO 变成7个选项 liguoxiong
+            if num == 1 or num == 2 or num == 3 \
+                    or num == 4 or num == 5 or num == 6 or num == 7:
                 break
-            elif num == 5:
+            elif num == 8:
                 exit()
             else:
-                # 输入不是数字1-5时，提示再次输入
+                # 输入不是数字1-7时，提示再次输入
                 num = raw_input(prompt.prompt_choose_again)
 
-    if num == 1:
-        # 本地和U盘都存在项目
+    # TODO 变成7个选项 liguoxiong
+    if num == 1:  # 增量pull
         # 获取路径
         path.local_path = path.get_valid_local_path_with_project()
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # TODO 反序列化.synchash文件得到哈希数组链表sync_hash shiweihua
-        # TODO 遍历sync_hash,将每个FileHash中flag置0 shiweihua
-        # TODO 初始化全局数组diff，no_in_local,no_in_udisk shiweihua
-        # TODO 递归扫描同步目录并计算diff，no_in_local,no_in_udisk中的元素 shiweihua
-        # TODO 选择push/pull shiweihua
-        # TODO 执行push/pull shiweihua
-        # 执行safe_exit(),反序列化sync_hash并结束程序
-        safe_exit()
-    elif num == 2:
-        # 本地存在项目，U盘不存在项目
+        # TODO 初始化diff数组 shiweihua
+        # TODO 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
+        # TODO 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
+        # TODO 遍历比较sync_hash_local和sync_hash_udisk，得到数组diff、sync_hash_udisk、sync_hash_local 看增量pull流程图 shiweihua
+        # TODO 根据diff数组，把u盘对应的文件覆盖本地的文件，同时把U盘上的该文件删除 shiweihua
+        # TODO 根据现在的sync_hash_udisk， 把U盘新增的文件复制到本地， 同时把U盘上的该文件删除 shiweihua
+        # TODO 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
+        # TODO 把U盘的.synchash文件复制到本地 shiweihua
+        exit()
+    elif num == 2:  # 增量push
         # 获取路径
         path.local_path = path.get_valid_local_path_with_project()
-        path.udisk_path = path.get_valid_udisk_path()
-        # 初始化U盘目录
-        sync.init_project(path.udisk_path)
-        # TODO new一个哈希数组链表sync_hash shiweihua
-        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘 shiweihua
-        # 执行safe_exit(),反序列化sync_hash并结束程序
-        safe_exit()
-    elif num == 3:
-        # U盘存在项目，本地不存在项目
-        # 获取路径
-        path.local_path = path.get_valid_local_path()
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # 初始化本地目录
-        sync.init_project(path.local_path)
-        # TODO 将U盘上的.synchash文件反序列化为哈希数组链表sync_hash shiweihua
-        # TODO 遍历sync_hash,对每一个FileHash对象将U盘中的相应文件同步到本地 shiweihua
-        # 可以直接结束文件，不需要将sync_hash反序列化
-        safe_exit()
-    elif num == 4:
-        # 本地和U盘都不存在项目
+        # TODO 初始化数组： add_in_local、 diff shiweihua
+        # TODO 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
+        # TODO 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
+        # TODO 递归扫描本地同步目录 得到数组diff、sync_hash_udisk、sync_hash_local 看增量push流程图 shiweihua
+        # TODO 根据diff数组， 把本地对应的文件覆盖U盘的文件 shiweihua
+        # TODO 同时修改sync_hash_udisk上相应节点中的content_hash shiweihua
+        # TODO 根据add_in_local数组， 把本地新增的文件复制到U盘 shiweihua
+        # TODO 遍历sync_hash_udisk， 如果该节点存在， 则不做任何操作否则把新增的节点添加到sync_hash_udisk上 shiweihua
+        # TODO 根据sync_hash_local（delete_in_local） 数组，删除U盘上的文件 shiweihua
+        # TODO 同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作） shiweihua
+        # TODO 把sync_hash_udisk序列化到本地和U盘上的.synchash文件
+        exit()
+    elif num == 3:  # 全量pull
         # 获取路径
-        path.local_path = path.get_valid_local_path_even_had_file()
-        path.udisk_path = path.get_valid_udisk_path()
-        # 初始化本地目录
-        sync.init_project(path.local_path)
-        # 初始化U盘目录
-        sync.init_project(path.udisk_path)
-        # TODO new一个哈希数组链表sync_hash shiweihua
-        # TODO 递归扫描本地同步目录，将每一个扫描到的文件加入到sync_hash,把并把该文件同步到U盘 shiweihua
-        # 执行safe_exit(),反序列化sync_hash并结束程序
-        safe_exit()
-
-
-# 反序列化sync_hash并结束程序
-def safe_exit():
-    # TODO 反序列化sync_hash,直接调用函数 shiweihua
-    print("程序正常结束\n")
-    exit(0)
-
-
-# TODO 询问是否需要push liguoxiong
-def ask_push():
-    pass
-
-
-# TODO 询问是否需要pull liguoxiong
-def ask_pull():
-    pass
+        path.local_path = path.get_valid_local_path()  # TODO 要空文件夹，看要不要加函数 liguoxiong
+        path.udisk_path = path.get_valid_udisk_path_with_project()
+        # TODO 将U盘的所有文件同步到本地 shiweihua
+        # TODO 将U盘的.synchash文件复制到本地 shiweihua
+        exit()
+    elif num == 4:  # 全量push
+        # 获取路径
+        path.local_path = path.get_valid_local_path_with_project()
+        path.udisk_path = path.get_valid_udisk_path_with_project()
+        # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
+        # TODO 将本地的所有文件复制到U盘 shiweihua
+        # TODO 将本地的.synchash文件复制到U盘 shiweihua
+        exit()
+    elif num == 5:  # 手动删除U盘上的全量目录
+        # 获取路径
+        path.udisk_path = path.get_valid_udisk_path_with_project()
+        # TODO 检查U盘上是否已经有全量目录 shiweihua
+        # TODO 如果有则删除U盘上的全量目录 shiweihua
+        # TODO 如果没有就提示没有全量目录，然后不做将U盘的所有文件同任何操作 shiweihua
+        exit()
+    elif num == 6:  # 初始化本地已有的项目
+        # TODO 请输入本地目录：（该目录要满足： 有效性、 不存在项目） liguoxiong
+        # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
+        exit()
+    elif num == 7:  # 全量push
+        # TODO 请输入U盘目录：（该目录要满足： 有效性、 空文件、 不存在项目） liguoxiong
+        # TODO 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
+        # TODO 初始化一个sync_hash数组链表，序列化到U盘的.sync文件夹下的.synchash文件中
+        exit()
