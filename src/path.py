@@ -183,6 +183,9 @@ def change_udisk_relative_path_to_absolute_path(relative_path):
     pass
 
 
-# TODO 去掉路径的最后的斜杠 liguoxiong
-def delete_last_slash(apth):
-    pass
+# 去掉路径的最后的斜杠(不管数量多少，全部去掉)。如果路径最后没有斜杠，则不再操作，直接返回原路径
+# author 李国雄
+def delete_last_slash(path):
+    if path.endswith(os.sep) or path.endswith("/") or path.endswith("\\"):
+        return os.path.dirname(path)
+    return path
