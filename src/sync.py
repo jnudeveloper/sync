@@ -51,20 +51,36 @@ def local_to_udisk():
 
 
 # TODO 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
-def move_to_udisk(node):
+def move_to_udisk(local_path, udisk_path, node):
     pass
 
 
 # TODO 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
-def move_to_local(node):
+def move_to_local(local_path, udisk_path, node):
     pass
 
 
-# TODO 根据节点信息,删除U盘中的文件 shiweihua
-def delete_from_udisk(node):
+# TODO 根据节点信息,删除U盘中的文件，并且删除文件后递归删除空目录 shiweihua
+def delete_from_udisk(udisk_path, node):
     pass
 
 
 # TODO 根据节点信息,删除本地中的文件 shiweihua
-def delete_from_local(node):
+def delete_from_local(local_path, node):
     pass
+
+
+# 根据给出的路径移动文件，需要时会自动新建目录 shiweihua
+def move_one_file(src, sync_path, relative_path):
+    # 将relative_path按路径分隔符切割成数组relative_path_arr
+    relative_path_arr = relative_path.split(os.sep)
+    # 删除relative_path_arr中最后一个元素
+    relative_path_arr.pop()
+    # 逐步将sync_path与relative_path_arr中的元素拼接，并且检验这个目录是否存在，不存在则新建之
+    tmp_sync_path = sync_path
+    for tmp_folder in relative_path_arr:
+        tmp_sync_path += (os.sep + tmp_folder)
+        if not os.path.exists(tmp_sync_path):
+            os.mkdir(tmp_sync_path)  # 目录不存在，新建之
+    # 如果目的文件夹下已经存在这个文件则覆盖它
+    shutil.copy2(src, sync_path + os.sep + relative_path)

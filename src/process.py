@@ -68,20 +68,20 @@ def run():
                     local_node = local_node.get_next_node()
         # 根据diff数组，把u盘对应的文件覆盖本地的文件，同时把U盘上的该文件删除 shiweihua
         for diff_node in diff:
-            sync.move_to_local(diff_node)
-            sync.delete_from_udisk(diff_node)
+            sync.move_to_local(path.local_path, path.udisk_path, diff_node)
+            sync.delete_from_udisk(path.udisk_path, diff_node)
         # 根据现在的sync_hash_udisk， 把U盘新增的文件复制到本地， 同时把U盘上的该文件删除 shiweihua
         for i in range(hash_algorithm.sync_hash_length):
             add_in_other = sync_hash_udisk[i]
             while add_in_other != None:
-                sync.move_to_local(add_in_other)
-                sync.delete_from_udisk(add_in_other)
+                sync.move_to_local(path.local_path, path.udisk_path, add_in_other)
+                sync.delete_from_udisk(path.udisk_path, add_in_other)
                 add_in_other = add_in_other.get_next_node()
         # 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
         for i in range(hash_algorithm.sync_hash_length):
             delete_in_other = sync_hash_udisk[i]
             while delete_in_other != None:
-                sync.delete_from_local(delete_in_other)
+                sync.delete_from_local(path.local_path, delete_in_other)
                 delete_in_other = delete_in_other.get_next_node()
         # 把U盘的.synchash文件复制到本地 shiweihua
         shutil.copy2(path.udisk_path+os.sep+".sync"+os.sep+".synchash",
