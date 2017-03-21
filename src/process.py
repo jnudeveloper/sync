@@ -7,7 +7,6 @@ import sync
 
 # 脚本开始时获取用户输入，进入不同的状态
 def run():
-    # TODO 变成7个选项 liguoxiong
     print prompt.prompt_init
     num = raw_input(prompt.prompt_init_choose)
     # 获取用户输入，直到输入正确
@@ -18,7 +17,6 @@ def run():
         else:
             # 输入为数字字符，字符转换成数
             num = int(num)
-            # TODO 变成7个选项 liguoxiong
             if num == 1 or num == 2 or num == 3 \
                     or num == 4 or num == 5 or num == 6 or num == 7:
                 break
@@ -28,7 +26,6 @@ def run():
                 # 输入不是数字1-7时，提示再次输入
                 num = raw_input(prompt.prompt_choose_again)
 
-    # TODO 变成7个选项 liguoxiong
     if num == 1:  # 增量pull
         # 获取路径
         path.local_path = path.get_valid_local_path_with_project()
