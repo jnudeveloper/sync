@@ -50,12 +50,12 @@ def local_to_udisk():
     print "成功把本地的数据传到U盘"
 
 
-# TODO 根据节点信息，把本地文件移动到U盘 shiweihua
+# TODO 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
 def move_to_udisk(node):
     pass
 
 
-# TODO 根据节点信息，把U盘文件移动到本地 shiweihua
+# TODO 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
 def move_to_local(node):
     pass
 
