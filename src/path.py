@@ -160,27 +160,43 @@ def get_valid_path_with_project(path, device_type="local"):
 
 
 # 把本地的绝对路径变成相对路径
+# author 李国雄
+# 如果根目录为：/usr/bin 、绝对路径为：/usr/bin/path/test/ ， 则得到的相对路径为：path/test(前后都没有分隔符)
 def change_local_absolute_path_to_relative_path(absolute_path):
-    # TODO 把本地的绝对路径变成相对路径  liguoxiong
-    pass
+    local_path_add = add_last_slash(local_path)
+    relative_path = absolute_path[len(local_path_add):]
+    return delete_last_slash(relative_path)
 
 
 # 把本地的相对路径变成绝对路径
+# author 李国雄
+# 如果根目录为：/usr/bin 、相对路径为：/path/test/ ， 则得到的绝对路径为：/usr/bin/path/test(后面没有分隔符)
 def change_local_relative_path_to_absolute_path(relative_path):
-    # TODO 把本地的相对路径变成绝对路径  liguoxiong
-    pass
+    if relative_path.startswith(os.sep) or relative_path.startswith("/") or relative_path.startswith("\\"):
+        relative_path = relative_path[1:]
+    relative_path = delete_last_slash(relative_path)
+    absolute_path = delete_last_slash(local_path) + os.sep + relative_path
+    return absolute_path
 
 
 # 把U盘的绝对路径变成相对路径
+# author 李国雄
+# 如果根目录为：/usr/bin 、绝对路径为：/usr/bin/path/test/ ， 则得到的相对路径为：path/test(前后都没有分隔符)
 def change_udisk_absolute_path_to_relative_path(absolute_path):
-    # TODO 把本地的绝对路径变成相对路径  liguoxiong
-    pass
+    udisk_path_add = add_last_slash(udisk_path)
+    relative_path = absolute_path[len(udisk_path_add):]
+    return delete_last_slash(relative_path)
 
 
 # 把U盘的相对路径变成绝对路径
+# author 李国雄
+# 如果根目录为：/usr/bin 、相对路径为：/path/test/ ， 则得到的绝对路径为：/usr/bin/path/test(后面没有分隔符)
 def change_udisk_relative_path_to_absolute_path(relative_path):
-    # TODO 把本地的相对路径变成绝对路径  liguoxiong
-    pass
+    if relative_path.startswith(os.sep) or relative_path.startswith("/") or relative_path.startswith("\\"):
+        relative_path = relative_path[1:]
+    relative_path = delete_last_slash(relative_path)
+    absolute_path = delete_last_slash(udisk_path) + os.sep + relative_path
+    return absolute_path
 
 
 # 去掉路径的最后的斜杠(不管数量多少，全部去掉)。如果路径最后没有斜杠，则不再操作，直接返回原路径
@@ -189,3 +205,10 @@ def delete_last_slash(path):
     if path.endswith(os.sep) or path.endswith("/") or path.endswith("\\"):
         return os.path.dirname(path)
     return path
+
+
+# 路径的最后增加路径分隔符
+# author 李国雄
+def add_last_slash(path):
+    path = delete_last_slash(path)
+    return path + os.sep
