@@ -50,26 +50,45 @@ def local_to_udisk():
     print "成功把本地的数据传到U盘"
 
 
+# @author shiweihua
 # TODO 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
 def move_to_udisk(local_path, udisk_path, node):
+    # 从node中取出相对路径relative_path
+    # 拼接相对路径得到绝对路径（local_absolute_path）
+    # 把本地文件移动到U盘
+    # move_one_file(local_absolute_path, udisk_path, relative_path)
     pass
 
 
+# @author shiweihua
 # TODO 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
 def move_to_local(local_path, udisk_path, node):
+    # 从node中取出相对路径relative_path
+    # 拼接相对路径得到绝对路径（udisk_absolute_path）
+    # 把本地文件移动到本地
+    # move_one_file(udisk_absolute_path, local_path, relative_path)
     pass
 
 
-# TODO 根据节点信息,删除U盘中的文件，并且删除文件后递归删除空目录 shiweihua
+# @author shiweihua
+# TODO 根据节点信息,删除U盘中的文件 shiweihua
 def delete_from_udisk(udisk_path, node):
+    # 从node中取出相对路径relative_path
+    # 拼接相对路径得到绝对路径（udisk_absolute_path）
+    # 如果存在这个文件，则删掉它
     pass
 
 
+# @author shiweihua
 # TODO 根据节点信息,删除本地中的文件 shiweihua
 def delete_from_local(local_path, node):
+    # 从node中取出相对路径relative_path
+    # 拼接相对路径得到绝对路径（local_absolute_path）
+    # 如果存在这个文件，则删掉它
     pass
 
 
+# @author shiweihua
 # 根据给出的路径移动文件，需要时会自动新建目录 shiweihua
 def move_one_file(src, sync_path, relative_path):
     # 将relative_path按路径分隔符切割成数组relative_path_arr
@@ -82,5 +101,5 @@ def move_one_file(src, sync_path, relative_path):
         tmp_sync_path += (os.sep + tmp_folder)
         if not os.path.exists(tmp_sync_path):
             os.mkdir(tmp_sync_path)  # 目录不存在，新建之
-    # 如果目的文件夹下已经存在这个文件则覆盖它
+    # 如果目的文件夹下已经存在这个文件则覆盖它，否则复制文件到目的文件夹下
     shutil.copy2(src, sync_path + os.sep + relative_path)
