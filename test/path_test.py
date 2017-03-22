@@ -30,18 +30,18 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：change_local_absolute_path_to_relative_path
-    def test_change_local_absolute_path_to_relative_path(self):
+    def test_change_absolute_path_to_relative_path(self):
         path.local_path = "/usr/bin"
         absolute_paths = ["/usr/bin/path", "/usr/bin/path/", "/usr/bin/path/test", "/usr/bin/path/test/"]
         expect_paths = ["path", "path", "path/test", "path/test"]
         i = 0
         length = len(absolute_paths)
         while i < length:
-            self.assertEqual(expect_paths[i], path.change_local_absolute_path_to_relative_path(absolute_paths[i]))
+            self.assertEqual(expect_paths[i], path.change_absolute_path_to_relative_path(path.local_path, absolute_paths[i]))
             i += 1
 
     # 测试方法：change_local_relative_path_to_absolute_path
-    def test_change_local_relative_path_to_absolute_path(self):
+    def test_change_relative_path_to_absolute_path(self):
         path.local_path = "/usr/bin"
         relative_paths = ["path", "path/", "/path", "/path/", "path/test", "path/test/"]
         expect_paths = ["/usr/bin" + os.sep + "path", "/usr/bin" + os.sep + "path", "/usr/bin" + os.sep + "path",
@@ -50,29 +50,5 @@ class TestPath(unittest.TestCase):
         i = 0
         length = len(relative_paths)
         while i < length:
-            self.assertEqual(expect_paths[i], path.change_local_relative_path_to_absolute_path(relative_paths[i]))
-            i += 1
-
-    # 测试方法：change_udisk_absolute_path_to_relative_path
-    def test_change_udisk_absolute_path_to_relative_path(self):
-        path.udisk_path = "/usr/bin"
-        absolute_paths = ["/usr/bin/path", "/usr/bin/path/", "/usr/bin/path/test", "/usr/bin/path/test/"]
-        expect_paths = ["path", "path", "path/test", "path/test"]
-        i = 0
-        length = len(absolute_paths)
-        while i < length:
-            self.assertEqual(expect_paths[i], path.change_udisk_absolute_path_to_relative_path(absolute_paths[i]))
-            i += 1
-
-    # 测试方法：change_udisk_relative_path_to_absolute_path
-    def test_change_udisk_relative_path_to_absolute_path(self):
-        path.udisk_path = "/usr/bin"
-        relative_paths = ["path", "path/", "/path", "/path/", "path/test", "path/test/"]
-        expect_paths = ["/usr/bin" + os.sep + "path", "/usr/bin" + os.sep + "path", "/usr/bin" + os.sep + "path",
-                        "/usr/bin" + os.sep + "path", "/usr/bin" + os.sep + "path/test",
-                        "/usr/bin" + os.sep + "path/test"]
-        i = 0
-        length = len(relative_paths)
-        while i < length:
-            self.assertEqual(expect_paths[i], path.change_udisk_relative_path_to_absolute_path(relative_paths[i]))
+            self.assertEqual(expect_paths[i], path.change_relative_path_to_absolute_path(path.local_path, relative_paths[i]))
             i += 1
