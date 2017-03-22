@@ -39,14 +39,14 @@ class FileHashList(object):
 
     # 根据文件名hash删除节点
     # 出现异常返回 -1
-    # 没有节点返回 -2
+    # 找不到name_hashcode对应的节点返回 -2
     # TODO 如果被删掉的node是FileHashList某条链表中剩下的最后一个节点了，则要把这个数组元素置为None，如果不理解这段话找shiweihua
     def delete_by_name_hashcode(self, name_hashcode):
         # TODO 根据相对路径删除节点  skywhat
         pass
 
     # 根据name_hashcode修改content_hashcode
-    def change_content_hashcode_by_name_hashcode(self, name_hashcode):
+    def change_content_hashcode_by_name_hashcode(self, name_hashcode, content_hashcode):
         # TODO 根据name_hashcode修改content_hashcode  skywhat
         pass
 

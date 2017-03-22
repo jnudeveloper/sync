@@ -212,3 +212,28 @@ def delete_last_slash(path):
 def add_last_slash(path):
     path = delete_last_slash(path)
     return path + os.sep
+
+
+# @author shiwehua
+#  遍历给出的目录，以数组形式返回目录下的所有文件的路径
+def traverse_sync(path):
+    file_path_arr = []
+    for root, dirs, files in os.walk(path):
+        for files_path in files:
+            file_path_arr.append(os.path.join(root, files_path))
+    return file_path_arr
+
+
+# @author shiwehua
+# 获取同步目录下除.sync目录下的所有文件路径，返回一个所有路径的数组
+def get_all_file_path(sync_path):
+    file_path_arr = []
+    folders = os.listdir(sync_path)
+    for folder in folders:
+        if folder == ".sync":
+            pass
+        elif os.path.isfile(sync_path + os.sep + folder):
+            file_path_arr.append(sync_path + os.sep + folder)
+        elif os.path.isdir(sync_path + os.sep + folder):
+            file_path_arr.extend(traverse_sync(sync_path + os.sep + folder))
+    return file_path_arr
