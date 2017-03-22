@@ -29,7 +29,7 @@ class TestPath(unittest.TestCase):
             self.assertEqual(expect_paths[i], path.add_last_slash(init_paths[i]))
             i += 1
 
-    # 测试方法：change_local_absolute_path_to_relative_path
+    # 测试方法：change_absolute_path_to_relative_path
     def test_change_absolute_path_to_relative_path(self):
         path.local_path = "/usr/bin"
         absolute_paths = ["/usr/bin/path", "/usr/bin/path/", "/usr/bin/path/test", "/usr/bin/path/test/"]
@@ -40,7 +40,7 @@ class TestPath(unittest.TestCase):
             self.assertEqual(expect_paths[i], path.change_absolute_path_to_relative_path(path.local_path, absolute_paths[i]))
             i += 1
 
-    # 测试方法：change_local_relative_path_to_absolute_path
+    # 测试方法：change_relative_path_to_absolute_path
     def test_change_relative_path_to_absolute_path(self):
         path.local_path = "/usr/bin"
         relative_paths = ["path", "path/", "/path", "/path/", "path/test", "path/test/"]
