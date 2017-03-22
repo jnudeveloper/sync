@@ -59,15 +59,15 @@ class FileHashList(object):
 class FileHashNode(object):
     def __init__(self, path):
         self.path = path  # path为相对路径
-        self.nextNode = None  # 下一节点
+        self.next_node = None  # 下一节点
         self.name_hashcode = hash_algorithm.get_name_hashcode(self.path)  # 文件名hash值
         self.content_hashcode = hash_algorithm.get_content_hashcode(self.path)  # 文件内容hash值
 
     def set_next_node(self, node):
-        self.nextNode = node
+        self.next_node = node
 
     def get_next_node(self):
-        return self.nextNode
+        return self.next_node
 
     def get_name_hashcode(self):
         return self.name_hashcode
