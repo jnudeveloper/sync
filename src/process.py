@@ -150,20 +150,22 @@ def run():
         serialize.serialize(sync_hash_udisk, path.local_path+os.sep+".sync"+os.sep+".synchash")
         shutil.copy2(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash",
                      path.local_path + os.sep + ".sync" + os.sep + ".synchash")
+        print "执行增量push完成，程序正常退出！"
         exit()
     elif num == 3:  # 全量pull
         # 获取路径
         path.local_path = path.get_valid_local_path()  # TODO 要空文件夹，看要不要加函数 liguoxiong
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # TODO 将U盘的所有文件同步到本地 shiweihua
+        # TODO 将U盘.sync目录下的同步目录同步到本地 shiweihua
         # TODO 将U盘的.synchash文件复制到本地 shiweihua
+        # TODO 将U盘.sync目录下的同步目录删除
         exit()
     elif num == 4:  # 全量push
         # 获取路径
         path.local_path = path.get_valid_local_path_with_project()
         path.udisk_path = path.get_valid_udisk_path_with_project()
         # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
-        # TODO 将本地的所有文件复制到U盘 shiweihua
+        # TODO 将本地的所有文件复制到U盘的全量目录下 shiweihua
         # TODO 将本地的.synchash文件复制到U盘 shiweihua
         exit()
     elif num == 5:  # 手动删除U盘上的全量目录
@@ -171,14 +173,14 @@ def run():
         path.udisk_path = path.get_valid_udisk_path_with_project()
         # TODO 检查U盘上是否已经有全量目录 shiweihua
         # TODO 如果有则删除U盘上的全量目录 shiweihua
-        # TODO 如果没有就提示没有全量目录，然后不做将U盘的所有文件同任何操作 shiweihua
+        # TODO 如果没有就提示没有全量目录，然后不做任何操作 shiweihua
         exit()
     elif num == 6:  # 初始化本地已有的项目
         # TODO 请输入本地目录：（该目录要满足： 有效性、 不存在项目） liguoxiong
         # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
         exit()
-    elif num == 7:  # 全量push
+    elif num == 7:  # 初始化U盘
         # TODO 请输入U盘目录：（该目录要满足： 有效性、 空文件、 不存在项目） liguoxiong
         # TODO 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
-        # TODO 初始化一个sync_hash数组链表，序列化到U盘的.sync文件夹下的.synchash文件中
+        # TODO 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
         exit()
