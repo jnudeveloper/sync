@@ -3,6 +3,7 @@
 import os
 import path
 import shutil
+from shutil import copytree
 
 
 # TODO 复制整个目录树U盘的.sync文件夹中 liguoxiong
@@ -111,3 +112,20 @@ def move_one_file(src, sync_path, relative_path):
             os.mkdir(tmp_sync_path)  # 目录不存在，新建之
     # 如果目的文件夹下已经存在这个文件则覆盖它，否则复制文件到目的文件夹下
     shutil.copy2(src, sync_path + os.sep + relative_path)
+
+
+# @author shiweihua
+# 把U盘中的全量目录pull到本地
+def fully_pull(udisk_path, local_path):
+    full_dir = udisk_path + os.sep + ".sync" + os.sep + ".all"
+    folders = os.listdir(full_dir)
+    for folder in folders:
+        full_src_path = full_dir + os.sep + folder
+        if os.path.isdir(full_src_path):
+            copytree(full_src_path, local_path + os.sep + folder)
+        elif os.path.isfile(full_src_path):
+            shutil.copy2(full_src_path, local_path)
+    # 在本地新建.sync目录
+    os.mkdir(local_path + os.sep + ".sync")
+    shutil.copy2(udisk_path + os.sep + ".sync" + os.sep + ".synchash",
+                 local_path + os.sep + ".sync" + os.sep + ".synchash")

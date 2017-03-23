@@ -156,9 +156,11 @@ def run():
         # 获取路径
         path.local_path = path.get_valid_local_path()  # TODO 要空文件夹，看要不要加函数 liguoxiong
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # TODO 将U盘.sync目录下的同步目录同步到本地 shiweihua
-        # TODO 将U盘的.synchash文件复制到本地 shiweihua
-        # TODO 将U盘.sync目录下的同步目录删除
+        # 将U盘.sync目录下的同步目录同步到本地并将U盘的.synchash文件复制到本地 shiweihua
+        sync.fully_pull(path.udisk_path, path.local_path)
+        # 将U盘.sync目录下的同步目录删除 shiweihua
+        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
+        print "执行全量pull完成，程序正常退出！"
         exit()
     elif num == 4:  # 全量push
         # 获取路径
@@ -171,9 +173,14 @@ def run():
     elif num == 5:  # 手动删除U盘上的全量目录
         # 获取路径
         path.udisk_path = path.get_valid_udisk_path_with_project()
-        # TODO 检查U盘上是否已经有全量目录 shiweihua
-        # TODO 如果有则删除U盘上的全量目录 shiweihua
-        # TODO 如果没有就提示没有全量目录，然后不做任何操作 shiweihua
+        # 检查U盘上是否已经有全量目录 shiweihua
+        if os.path.exists(path.udisk_path + os.sep + ".sync" + os.sep + ".all"):
+            # 如果有则删除U盘上的全量目录 shiweihua
+            shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
+            print "删除全量目录成功，程序正常退出！"
+        else:
+            # 如果没有就提示没有全量目录，然后不做任何操作 shiweihua
+            print "U盘上并没有全量目录！程序正常退出！"
         exit()
     elif num == 6:  # 初始化本地已有的项目
         # TODO 请输入本地目录：（该目录要满足： 有效性、 不存在项目） liguoxiong
@@ -181,6 +188,11 @@ def run():
         exit()
     elif num == 7:  # 初始化U盘
         # TODO 请输入U盘目录：（该目录要满足： 有效性、 空文件、 不存在项目） liguoxiong
-        # TODO 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
-        # TODO 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
+        path.udisk_path = "test"  # TODO @liguoxiong 你到时候把这里改掉
+        # 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
+        os.mkdir(path.udisk_path + os.sep + ".sync")
+        os.mknod(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
+        # 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
+        sync_hash = synchash.FileHashList()
+        serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")
         exit()

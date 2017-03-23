@@ -4,6 +4,8 @@
 import os
 from src import sync
 from src import synchash
+import shutil
+from shutil import copytree, ignore_patterns
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
@@ -56,12 +58,27 @@ def get_all_file_path(sync_path):
 # sync.delete_from_local(local_path, node)
 
 
+def fully_pull(udisk_path, local_path):
+    full_dir = udisk_path + os.sep + ".sync" + os.sep + ".all"
+    folders = os.listdir(full_dir)
+    for folder in folders:
+        full_src_path = full_dir + os.sep + folder
+        if os.path.isdir(full_src_path):
+            copytree(full_src_path, local_path + os.sep + folder)
+        elif os.path.isfile(full_src_path):
+            shutil.copy2(full_src_path, local_path)
+    # 在本地新建.sync目录
+    os.mkdir(local_path + os.sep + ".sync")
+    shutil.copy2(udisk_path + os.sep + ".sync" + os.sep + ".synchash",
+                 local_path + os.sep + ".sync" + os.sep + ".synchash")
 
 
+udisk_path = "E:\\py_test\\other"
+local_path = "E:\\py_test\\test"
 
+# fully_pull(udisk_path, local_path)
 
-
-
+shutil.rmtree(udisk_path + os.sep + ".sync" + os.sep + ".all")
 
 
 
