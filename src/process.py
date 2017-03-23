@@ -198,5 +198,5 @@ def run():
         # 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
         sync_hash = synchash.FileHashList()
         serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")
-
+        print "U盘初始化完成，程序正常退出！"
         exit()
