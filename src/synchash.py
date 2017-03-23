@@ -10,9 +10,7 @@ class FileHashList(object):
     # TODO 是否可以显式定义属性 skywhat
 
     def __init__(self):
-        self.hash_list = []
-        for i in range(hash_algorithm.sync_hash_length):
-            self.hash_list.append(None)
+        self.hash_list = [None]*hash_algorithm.sync_hash_length
 
     # 根据文件名把FileHashNode对象存入到哈希数组链表中的适当位置
     def insert(self, node):

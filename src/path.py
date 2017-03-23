@@ -29,7 +29,7 @@ def is_path_valid_and_is_project_exists_and_is_dir_same(path):
     path_valid = True
     if not is_path_valid_and_is_project_exists(path):
         path_valid = False
-    elif not is_current_dir_same(path):
+    elif not is_current_dir_same(path, local_path):
         print prompt.prompt_path_name_is_not_same
         path_valid = False
     return path_valid
@@ -126,8 +126,8 @@ def is_readable(path):
 # 判断udisk路径和本地路径的当前目录是否同名
 # 同名返回：True ， 不同名返回：False
 # author 李国雄
-def is_current_dir_same(udisk_path_name):
-    local_path_name = delete_last_slash(udisk_path_name)
+def is_current_dir_same(udisk_path_name, local_path_name):
+    local_path_name = delete_last_slash(local_path_name)
     local_path_basename = os.path.basename(local_path_name)
     udisk_path_name = delete_last_slash(udisk_path_name)
     udisk_path_basename = os.path.basename(udisk_path_name)
@@ -136,62 +136,12 @@ def is_current_dir_same(udisk_path_name):
     return False
 
 
-# 获取本地目录
-# 目录存在、可读、可写
-# TODO 路径不能有文件，如果有文件要提示，重新输入 liguoxiong
-def get_valid_local_path():
-    return get_valid_path(raw_input(prompt.prompt_local_path), "local")
-
-
-# 获取U盘目录
-# 目录存在、可读、可写
-# 文件夹名称和之请输入的本地文件夹名称一致
-# TODO 路径不能有文件，如果有文件要提示，重新输入  liguoxiong
-def get_valid_udisk_path():
-    return get_valid_path(raw_input(prompt.prompt_udisk_path), "udisk")
-
-
-# 获取有效的本地目录（目录存在、可读、可写）
-# 路径存在项目（该路径下存在.sync文件夹，.sync文件夹中有.synchash文件）
-# TODO 李国雄
-def get_valid_local_path_with_project():
-    return get_valid_path_with_project(raw_input(prompt.prompt_local_path), "local")
-
-
-# 获取有效的U盘目录（目录存在、可读、可写）
-# 路径存在项目（该路径下存在.sync文件夹，.sync文件夹中有.synchash文件）
-# 文件夹名称和之请输入的本地文件夹名称一致
-# TODO 李国雄
-def get_valid_udisk_path_with_project():
-    return get_valid_path_with_project(raw_input(prompt.prompt_udisk_path), "udisk")
-
-
-# TODO 获取本地目录  liguoxiong
-# TODO 注意：目录可以有文件  liguoxiong
-# 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
-def get_valid_local_path_even_had_file():
-    # TODO liguoxiong
-    pass
-
-
-# 循环获取路径，直到路径有效
-# 目录存在、可读、可写
-# TODO
-def get_valid_path(path, device_type="local"):
-    while not is_path_valid(path, device_type):
-        # 路径不存在时，继续输入
-        path = raw_input(prompt.prompt_error_path)
-    else:
-        # 路径有效时, 提示输入成功
-        print prompt.prompt_path_success
-        return path
-
-
-# 循环获取路径，直到路径有效
-# 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
-# TODO
-def get_valid_path_with_project(path, device_type="local"):
-    while not is_path_valid_and_is_project_exists(path, device_type):
+# 循环获取路径，直到路径有效和存在项目
+# 目录存在、可读、可写、路径存在项目
+# author 李国雄
+def get_valid_path_with_project(prompt_str):
+    path = raw_input(prompt_str)
+    while not is_path_valid_and_is_project_exists(path):
         # 路径无效时，继续输入
         path = raw_input(prompt.prompt_error_path)
     else:
@@ -199,6 +149,47 @@ def get_valid_path_with_project(path, device_type="local"):
         print prompt.prompt_path_success
         return path
 
+
+# 循环获取路径，直到路径有效、存在项目和同名
+# 目录存在、可读、可写、路径存在项目、同名
+# author 李国雄
+def get_valid_path_with_project_same_name(prompt_str):
+    path = raw_input(prompt_str)
+    while not is_path_valid_and_is_project_exists_and_is_dir_same(path):
+        # 路径无效时，继续输入
+        path = raw_input(prompt.prompt_error_path)
+    else:
+        # 路径有效时, 提示输入成功
+        print prompt.prompt_path_success
+        return path
+
+
+# 循环获取路径，直到路径有效、路径为空
+# 目录存在、可读、可写、路径为空
+# author 李国雄
+def get_valid_path_with_path_empty(prompt_str):
+    path = raw_input(prompt_str)
+    while not is_path_valid_and_is_path_empty(path):
+        # 路径无效时，继续输入
+        path = raw_input(prompt.prompt_error_path)
+    else:
+        # 路径有效时, 提示输入成功
+        print prompt.prompt_path_success
+        return path
+
+
+# 循环获取路径，直到路径有效、不存在项目（目录不一定为空）
+# 目录存在、可读、可写、不存在项目（目录不一定为空）
+# author 李国雄
+def get_valid_path_with_project_is_not_exists(prompt_str):
+    path = raw_input(prompt_str)
+    while not is_path_valid_and_is_project_not_exists(path):
+        # 路径无效时，继续输入
+        path = raw_input(prompt.prompt_error_path)
+    else:
+        # 路径有效时, 提示输入成功
+        print prompt.prompt_path_success
+        return path
 
 # 把本地的绝对路径变成相对路径
 # author 李国雄

@@ -68,7 +68,7 @@ class TestPath(unittest.TestCase):
         i = 0
         length = len(input_paths)
         while i < length:
-            self.assertEqual(expect_output[i], path.is_current_dir_same(input_paths[i]))
+            self.assertEqual(expect_output[i], path.is_current_dir_same(input_paths[i], path.local_path))
             i += 1
 
     # 测试方法：is_project_exists
