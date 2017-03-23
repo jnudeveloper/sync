@@ -48,7 +48,7 @@ prompt_sync_hash_file_is_exists = """输入的路径已经存在项目! \n """
 prompt_path_name_is_not_same = """u盘路径中文件夹名称和本地的不同！\n"""
 
 # udisk路径中文件夹名称和本地的不同
-prompt_path_is_not_empty = """本地目录不为空！\n"""
+prompt_path_is_not_empty = """本地目录应该为空，请选择一个空目录！\n"""
 
 # 目录输入成功
 prompt_path_success = """目录输入成功！\n"""

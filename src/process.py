@@ -33,14 +33,14 @@ def run():
 
     if num == 1:  # 增量pull
         # 获取路径
-        path.local_path = path.get_valid_local_path_with_project()
-        path.udisk_path = path.get_valid_udisk_path_with_project()
+        path.local_path = path.get_valid_path_with_project(prompt.prompt_local_path)
+        path.udisk_path = path.get_valid_path_with_project_same_name(prompt.prompt_udisk_path)
         # 初始化diff数组 shiweihua
         diff = []
         # 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
-        sync_hash_local = serialize.deserialize(path.local_path+os.sep+".sync"+os.sep+".synchash")
+        sync_hash_local = serialize.deserialize(path.local_path + os.sep + ".sync" + os.sep + ".synchash")
         # 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
-        sync_hash_udisk = serialize.deserialize(path.udisk_path+os.sep+".sync"+os.sep+".synchash")
+        sync_hash_udisk = serialize.deserialize(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
         # 遍历比较sync_hash_local和sync_hash_udisk，得到数组diff、sync_hash_udisk、sync_hash_local 看增量pull流程图 shiweihua
         for i in range(hash_algorithm.sync_hash_length):
             local_node = sync_hash_local[i]
@@ -85,19 +85,19 @@ def run():
                 sync.delete_from_local(path.local_path, delete_in_other)
                 delete_in_other = delete_in_other.get_next_node()
         # 把U盘的.synchash文件复制到本地 shiweihua
-        shutil.copy2(path.udisk_path+os.sep+".sync"+os.sep+".synchash",
-                     path.local_path+os.sep+".sync"+os.sep+".synchash")
+        shutil.copy2(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash",
+                     path.local_path + os.sep + ".sync" + os.sep + ".synchash")
         print "执行增量pull完成，程序正常退出！"
         exit()
     elif num == 2:  # 增量push
         # 获取路径
-        path.local_path = path.get_valid_local_path_with_project()
-        path.udisk_path = path.get_valid_udisk_path_with_project()
+        path.local_path = path.get_valid_path_with_project(prompt.prompt_local_path)
+        path.udisk_path = path.get_valid_path_with_project_same_name(prompt.prompt_udisk_path)
         # 初始化数组： add_in_local、 diff shiweihua
         add_in_local = []
         diff = []
         # 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
-        sync_hash_local = serialize.deserialize(path.local_path+os.sep+".sync"+os.sep+".synchash")
+        sync_hash_local = serialize.deserialize(path.local_path + os.sep + ".sync" + os.sep + ".synchash")
         # 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
         sync_hash_udisk = serialize.deserialize(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
         # 递归扫描本地目录，得到一个包含本地同步目录下所有文件路径的数组（.sync目录除外） shiweihua
@@ -109,7 +109,7 @@ def run():
             # 计算文件名hash
             name_hashcode = hash_algorithm.get_name_hashcode(relative_path)
             node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
-            if node_in_udisk != None: #判断节点是否在sync_hash_udisk中
+            if node_in_udisk != None:  # 判断节点是否在sync_hash_udisk中
                 # 如果在sync_hash_udisk中，计算文件内容hash
                 content_hashcode = hash_algorithm.get_content_hashcode(relative_path)
                 if content_hashcode != node_in_udisk.get_content_hashcode():
@@ -147,40 +147,44 @@ def run():
                 sync_hash_udisk.delete_by_name_hashcode(delete_in_local.get_name_hashcode())
                 delete_in_local = delete_in_local.get_next_node()
         # 把sync_hash_udisk序列化到本地和U盘上的.synchash文件
-        serialize.serialize(sync_hash_udisk, path.local_path+os.sep+".sync"+os.sep+".synchash")
+        serialize.serialize(sync_hash_udisk, path.local_path + os.sep + ".sync" + os.sep + ".synchash")
         shutil.copy2(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash",
                      path.local_path + os.sep + ".sync" + os.sep + ".synchash")
         print "执行增量push完成，程序正常退出！"
         exit()
     elif num == 3:  # 全量pull
         # 获取路径
-        path.local_path = path.get_valid_local_path()  # TODO 要空文件夹，看要不要加函数 liguoxiong
-        path.udisk_path = path.get_valid_udisk_path_with_project()
+        path.local_path = path.get_valid_path_with_path_empty(prompt.prompt_local_path)
+        path.udisk_path = path.get_valid_path_with_project_same_name(prompt.prompt_udisk_path)
         # TODO 将U盘.sync目录下的同步目录同步到本地 shiweihua
         # TODO 将U盘的.synchash文件复制到本地 shiweihua
         # TODO 将U盘.sync目录下的同步目录删除
         exit()
     elif num == 4:  # 全量push
         # 获取路径
-        path.local_path = path.get_valid_local_path_with_project()
-        path.udisk_path = path.get_valid_udisk_path_with_project()
+        path.local_path = path.get_valid_path_with_project(prompt.prompt_local_path)
+        path.udisk_path = path.get_valid_path_with_project_same_name(prompt.prompt_udisk_path)
         # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
         # TODO 将本地的所有文件复制到U盘的全量目录下 shiweihua
         # TODO 将本地的.synchash文件复制到U盘 shiweihua
         exit()
     elif num == 5:  # 手动删除U盘上的全量目录
         # 获取路径
-        path.udisk_path = path.get_valid_udisk_path_with_project()
+        path.udisk_path = path.get_valid_path_with_project(prompt.prompt_udisk_path)
         # TODO 检查U盘上是否已经有全量目录 shiweihua
         # TODO 如果有则删除U盘上的全量目录 shiweihua
         # TODO 如果没有就提示没有全量目录，然后不做任何操作 shiweihua
         exit()
     elif num == 6:  # 初始化本地已有的项目
-        # TODO 请输入本地目录：（该目录要满足： 有效性、 不存在项目） liguoxiong
+        # 获取路径
+        # 输入本地目录（该目录要满足： 有效性、 不存在项目）
+        path.local_path = path.get_valid_path_with_project_is_not_exists(prompt.prompt_local_path)
         # TODO 本地项目初始化  见本地项目初始化流程图 shiweihua
         exit()
     elif num == 7:  # 初始化U盘
-        # TODO 请输入U盘目录：（该目录要满足： 有效性、 空文件、 不存在项目） liguoxiong
+        # 获取路径
+        # 输入U盘目录（该目录要满足： 有效性、 文件夹为空）
+        path.udisk_path = path.get_valid_path_with_path_empty(prompt.prompt_udisk_path)
         # TODO 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
         # TODO 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
         exit()
