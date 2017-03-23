@@ -2,6 +2,7 @@
 # coding=utf-8
 # .synchash 文件的hash指纹信息
 import hash_algorithm
+import path
 
 
 class FileHashList(object):
@@ -57,11 +58,12 @@ class FileHashList(object):
 
 
 class FileHashNode(object):
-    def __init__(self, path):
-        self.path = path  # path为相对路径
+    def __init__(self, sync_path, relative_path):
+        self.path = relative_path  # path为相对路径
         self.next_node = None  # 下一节点
         self.name_hashcode = hash_algorithm.get_name_hashcode(self.path)  # 文件名hash值
-        self.content_hashcode = hash_algorithm.get_content_hashcode(self.path)  # 文件内容hash值
+        self.content_hashcode = hash_algorithm.get_content_hashcode(
+            path.change_relative_path_to_absolute_path(sync_path, relative_path))  # 文件内容hash值
 
     def set_next_node(self, node):
         self.next_node = node
@@ -78,8 +80,9 @@ class FileHashNode(object):
     def get_content_hashcode(self):
         return self.content_hashcode
 
-    def set_content_hashcode(self, path):
-        self.content_hashcode = hash_algorithm.get_content_hashcode(path)
+    def set_content_hashcode(self, sync_path, relative_path):
+        self.content_hashcode = hash_algorithm.get_content_hashcode(
+            path.change_relative_path_to_absolute_path(sync_path, relative_path))
 
     def get_path(self):
         return self.path

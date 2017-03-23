@@ -51,7 +51,6 @@ def local_to_udisk():
 
 
 # @author shiweihua
-# TODO 需要测试 shiweihua
 # 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
 def move_to_udisk(local_path, udisk_path, node):
     # 从node中取出相对路径relative_path
@@ -63,7 +62,6 @@ def move_to_udisk(local_path, udisk_path, node):
 
 
 # @author shiweihua
-# TODO 需要测试 shiweihua
 # 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
 def move_to_local(local_path, udisk_path, node):
     # 从node中取出相对路径relative_path
@@ -75,7 +73,6 @@ def move_to_local(local_path, udisk_path, node):
 
 
 # @author shiweihua
-# TODO 需要测试 shiweihua
 # 根据节点信息,删除U盘中的文件 shiweihua
 def delete_from_udisk(udisk_path, node):
     # 从node中取出相对路径relative_path
@@ -88,7 +85,6 @@ def delete_from_udisk(udisk_path, node):
 
 
 # @author shiweihua
-# TODO 需要测试 shiweihua
 # 根据节点信息,删除本地中的文件 shiweihua
 def delete_from_local(local_path, node):
     # 从node中取出相对路径relative_path

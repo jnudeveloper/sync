@@ -103,9 +103,9 @@ def run():
         # 递归扫描本地目录，得到一个包含本地同步目录下所有文件路径的数组（.sync目录除外） shiweihua
         file_path_arr = path.get_all_file_path(path.local_path)
         # 根据file_path_arr数组计算diff、sync_hash_udisk、sync_hash_local 看增量push流程图 shiweihua
-        for file in file_path_arr:
-            # TODO 将绝对路径变成相对路径relative_path
-            relative_path = "test"
+        for filename in file_path_arr:
+            # 将绝对路径变成相对路径relative_path
+            relative_path = path.change_absolute_path_to_relative_path(path.local_path, filename)
             # 计算文件名hash
             name_hashcode = hash_algorithm.get_name_hashcode(relative_path)
             node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
@@ -114,7 +114,7 @@ def run():
                 content_hashcode = hash_algorithm.get_content_hashcode(relative_path)
                 if content_hashcode != node_in_udisk.get_content_hashcode():
                     # 把该文件节点放到diff数组中
-                    node = synchash.FileHashNode(relative_path)
+                    node = synchash.FileHashNode(path.local_path, relative_path)
                     diff.append(node)
             node_in_local = sync_hash_local.find_by_name_hashcode(name_hashcode)
             if node_in_local != None:  # 判断节点是否在sync_hash_local中
@@ -122,7 +122,7 @@ def run():
                 sync_hash_local.delete_by_name_hashcode(name_hashcode)
             else:
                 # 如果不在sync_hash_local中则把扫描的文件节点放到add_in_local中
-                node = synchash.FileHashNode(relative_path)
+                node = synchash.FileHashNode(path.local_path, relative_path)
                 add_in_local.append(node)
         # 根据diff数组,把本地对应的文件覆盖U盘的文件,同时修改sync_hash_udisk上相应节点中的content_hash shiweihua
         for diff_node in diff:

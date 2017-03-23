@@ -3,6 +3,7 @@
 # 测试sync模块
 import os
 from src import sync
+from src import synchash
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
@@ -40,9 +41,19 @@ def get_all_file_path(sync_path):
 
 
 # 测试
-path = "E:\\py_test\\test"
-print(traverse_sync(path))
-print(get_all_file_path(path))
+# path = "E:\\py_test\\test"
+# print(traverse_sync(path))
+# print(get_all_file_path(path))
+
+# 测试sync.py中的四个文件操作函数
+# local_path = "E:\\py_test\\test"
+# udisk_path = "E:\\py_test\\other"
+# relative_path = "A\\a.txt"
+# node = synchash.FileHashNode(local_path, relative_path)
+# sync.move_to_udisk(local_path, udisk_path, node)
+# sync.move_to_local(udisk_path, local_path, node)
+# sync.delete_from_udisk(udisk_path, node)
+# sync.delete_from_local(local_path, node)
 
 
 
