@@ -7,9 +7,7 @@ import hash_algorithm
 
 class FileHashList(object):
     def __init__(self):
-        self.List = []
-        for i in range(hash_algorithm.sync_hash_length):
-            self.List.append(None)
+        self.List = [None]*hash_algorithm.sync_hash_length
 
     def insert(self, fname):
         filehash = FileHashNode(fname)
