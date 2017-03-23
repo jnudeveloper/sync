@@ -9,6 +9,7 @@ from src import path
 
 class TestPath(unittest.TestCase):
     # 测试方法：delete_last_slash
+    # author 李国雄
     def test_delete_last_slash(self):
         init_paths = ["d:\\dd\\", "d:\\dd\\\\", "d:\\dd", "E:/aa/", "E:/aa", "/usr/bin//", "/usr/bin/", "/usr/bin"]
         expect_paths = ["d:\\dd", "d:\\dd", "d:\\dd", "E:/aa", "E:/aa", "/usr/bin", "/usr/bin", "/usr/bin"]
@@ -19,6 +20,7 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：add_last_slash
+    # author 李国雄
     def test_add_last_slash(self):
         init_paths = ["d:\\dd", "e:\\dd\\", "E:/aa", "/usr/bin", "/usr/bin/"]
         expect_paths = ["d:\\dd" + os.sep, "e:\\dd" + os.sep, "E:/aa" + os.sep, "/usr/bin" + os.sep,
@@ -30,6 +32,7 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：change_absolute_path_to_relative_path
+    # author 李国雄
     def test_change_absolute_path_to_relative_path(self):
         path.local_path = "/usr/bin"
         absolute_paths = ["/usr/bin/path", "/usr/bin/path/", "/usr/bin/path/test", "/usr/bin/path/test/"]
@@ -42,6 +45,7 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：change_relative_path_to_absolute_path
+    # author 李国雄
     def test_change_relative_path_to_absolute_path(self):
         path.local_path = "/usr/bin"
         relative_paths = ["path", "path/", "/path", "/path/", "path/test", "path/test/"]
@@ -56,6 +60,7 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：is_current_dir_same
+    # author 李国雄
     def test_is_current_dir_same(self):
         path.local_path = "/usr/local/test/"
         input_paths = ["/usr/disk" + os.sep + "test", "/usr/disk" + os.sep + "test/", "/usr/disk" + os.sep + "tests"]
@@ -67,6 +72,7 @@ class TestPath(unittest.TestCase):
             i += 1
 
     # 测试方法：is_project_exists
+    # author 李国雄
     def test_is_project_exists(self):
         if os.path.exists(".sync"):
             for item in os.listdir(".sync"):
@@ -80,6 +86,7 @@ class TestPath(unittest.TestCase):
         self.assertEqual(True, path.is_project_exists("."))
 
     # 测试方法：is_path_empty
+    # author 李国雄
     def test_is_path_empty(self):
         if os.path.exists(".sync"):
             for item in os.listdir(".sync"):
