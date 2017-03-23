@@ -7,26 +7,67 @@ local_path = ''
 udisk_path = ''
 
 
-# 判断路径是否存在项目（该路径下存在文件 .synchash）
-# 前提：目录存在、可读、可写
-# udisk路径还要判断是否同名
-# 有效返回True，无效返回False
-def is_path_valid_and_has_project(path, device_type="local"):
+# 路径有效 和 路径存在项目
+# 目录存在、可读、可写、存在项目
+# 符合要求返回True，否则返回False
+# author 李国雄
+def is_path_valid_and_is_path_empty(path):
     path_valid = True
-    if not is_path_valid(path, device_type):
+    if not is_path_valid(path):
+        path_valid = False
+    elif not is_path_empty(path):
+        print prompt.prompt_path_is_not_empty
+        path_valid = False
+    return path_valid
+
+
+# 路径有效 和 路径存在项目 和 目录同名
+# 目录存在、可读、可写、存在项目、同名
+# 符合要求返回True，否则返回False
+# author 李国雄
+def is_path_valid_and_is_project_exists_and_is_dir_same(path):
+    path_valid = True
+    if not is_path_valid_and_is_project_exists(path):
+        path_valid = False
+    elif not is_current_dir_same(path):
+        print prompt.prompt_path_name_is_not_same
+        path_valid = False
+    return path_valid
+
+
+# 路径有效 和 路径存在项目
+# 目录存在、可读、可写、存在项目
+# 符合要求返回True，否则返回False
+# author 李国雄
+def is_path_valid_and_is_project_exists(path):
+    path_valid = True
+    if not is_path_valid(path):
         path_valid = False
     elif not is_project_exists(path):
-        print prompt.prompt_sync_hash_file_is_not_exist
-        # .synchash文件不存在
+        print prompt.prompt_sync_hash_file_is_not_exists
+        path_valid = False
+    return path_valid
+
+
+# 路径有效 和 路径不存在项目
+# 目录存在、可读、可写、不存在项目
+# 符合要求返回True，否则返回False
+# author 李国雄
+def is_path_valid_and_is_project_not_exists(path):
+    path_valid = True
+    if not is_path_valid(path):
+        path_valid = False
+    elif is_project_exists(path):
+        print prompt.prompt_sync_hash_file_is_exists
         path_valid = False
     return path_valid
 
 
 # 判断路径是否有效
 # 目录存在、可读、可写
-# udisk路径还要判断是否同名
 # 有效返回True，无效返回False
-def is_path_valid(path, device_type="local"):
+# author 李国雄
+def is_path_valid(path):
     path_valid = True
     if not os.path.exists(path):
         # 目录不存在
@@ -40,14 +81,11 @@ def is_path_valid(path, device_type="local"):
         print prompt.prompt_path_is_not_writeable
         # 目录不可写
         path_valid = False
-    elif device_type == "udisk" and (not is_current_dir_same(path)):
-        print prompt.prompt_path_name_is_not_same
-        path_valid = False
     return path_valid
 
 
 # 判断文件夹是否为空
-# 为空：返回True， 不为空：返回False
+# 为空返回：True， 不为空返回：False
 # author 李国雄
 def is_path_empty(path):
     if os.listdir(path):
@@ -55,7 +93,7 @@ def is_path_empty(path):
     return True
 
 
-# 判断项目是否存在：存在.sync文件夹，.sync文件夹中存在.synchash文件
+# 判断项目是否存在（存在.sync文件夹，.sync文件夹中存在.synchash文件）
 # 项目存在：返回True， 不存在：返回False
 # author 李国雄
 def is_project_exists(path):
@@ -68,7 +106,6 @@ def is_project_exists(path):
 
 # 判断目录是否可写
 # 可写：返回 True ， 不可写：返回  False
-# author 李国雄
 def is_writeable(path):
     # TODO 方法未测试 liguoxiong
     if os.access(path, os.F_OK) and os.access(path, os.W_OK):
@@ -79,7 +116,6 @@ def is_writeable(path):
 
 # 判断目录是否可读
 # 可读：返回 True  ，  不可读：返回  False
-# author 李国雄
 def is_readable(path):
     # TODO 方法未测试 liguoxiong
     if os.access(path, os.F_OK) and os.access(path, os.R_OK):
@@ -88,9 +124,10 @@ def is_readable(path):
 
 
 # 判断udisk路径和本地路径的当前目录是否同名
+# 同名返回：True ， 不同名返回：False
 # author 李国雄
 def is_current_dir_same(udisk_path_name):
-    local_path_name = delete_last_slash(local_path)
+    local_path_name = delete_last_slash(udisk_path_name)
     local_path_basename = os.path.basename(local_path_name)
     udisk_path_name = delete_last_slash(udisk_path_name)
     udisk_path_basename = os.path.basename(udisk_path_name)
@@ -139,6 +176,7 @@ def get_valid_local_path_even_had_file():
 
 # 循环获取路径，直到路径有效
 # 目录存在、可读、可写
+# TODO
 def get_valid_path(path, device_type="local"):
     while not is_path_valid(path, device_type):
         # 路径不存在时，继续输入
@@ -151,8 +189,9 @@ def get_valid_path(path, device_type="local"):
 
 # 循环获取路径，直到路径有效
 # 目录存在、可读、可写、路径存在项目（该路径下存在文件 .synchash）
+# TODO
 def get_valid_path_with_project(path, device_type="local"):
-    while not is_path_valid_and_has_project(path, device_type):
+    while not is_path_valid_and_is_project_exists(path, device_type):
         # 路径无效时，继续输入
         path = raw_input(prompt.prompt_error_path)
     else:

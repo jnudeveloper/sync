@@ -97,3 +97,67 @@ class TestPath(unittest.TestCase):
         file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
         file_new.close()
         self.assertEqual(False, path.is_path_empty(".sync"))
+
+    # 测试方法：is_path_valid
+    # author 李国雄
+    def test_is_path_valid(self):
+        self.assertEqual(True, path.is_path_valid("."))
+        self.assertEqual(False, path.is_path_valid("." + os.path.sep + ".sync"))
+        self.assertEqual(True, path.is_path_valid(".." + os.path.sep + "src"))
+
+    # 测试方法：is_path_valid_and_is_project_exists
+    # author 李国雄
+    def test_is_path_valid_and_is_project_exists(self):
+        if os.path.exists(".sync"):
+            for item in os.listdir(".sync"):
+                os.remove(".sync" + os.path.sep + item)
+            os.removedirs(".sync")
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists("."))
+        os.mkdir(".sync")
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists("."))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(True, path.is_path_valid_and_is_project_exists("."))
+
+    # 测试方法：is_path_valid_and_is_project_not_exists
+    # author 李国雄
+    def test_is_path_valid_and_is_project_not_exists(self):
+        if os.path.exists(".sync"):
+            for item in os.listdir(".sync"):
+                os.remove(".sync" + os.path.sep + item)
+            os.removedirs(".sync")
+        self.assertEqual(True, path.is_path_valid_and_is_project_not_exists("."))
+        os.mkdir(".sync")
+        self.assertEqual(True, path.is_path_valid_and_is_project_not_exists("."))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(False, path.is_path_valid_and_is_project_not_exists("."))
+
+    # 测试方法：is_path_valid_and_is_project_exists_and_is_dir_same
+    # author 李国雄
+    def test_is_path_valid_and_is_project_exists_and_is_dir_same(self):
+        if os.path.exists(".sync"):
+            for item in os.listdir(".sync"):
+                os.remove(".sync" + os.path.sep + item)
+            os.removedirs(".sync")
+        path.local_path = "/usr" + os.sep + "test"
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_same(".." + os.path.sep + "test"))
+        os.mkdir(".sync")
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_same(".." + os.path.sep + "test"))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(True, path.is_path_valid_and_is_project_exists_and_is_dir_same(".." + os.path.sep + "test"))
+
+    # 测试方法：is_path_valid_and_is_path_empty
+    # author 李国雄
+    def test_is_path_valid_and_is_path_empty(self):
+        if os.path.exists("." + os.path.sep + "test"):
+            for item in os.listdir("." + os.path.sep + "test"):
+                os.remove("." + os.path.sep + "test" + os.path.sep + item)
+            os.removedirs("." + os.path.sep + "test")
+        self.assertEqual(False, path.is_path_valid_and_is_path_empty("." + os.path.sep + "test"))
+        os.mkdir("test")
+        self.assertEqual(True, path.is_path_valid_and_is_path_empty("." + os.path.sep + "test"))
+        file_new = file("." + os.path.sep + "test" + os.path.sep + "a.txt", "w")
+        file_new.close()
+        self.assertEqual(False, path.is_path_valid_and_is_path_empty("." + os.path.sep + "test"))

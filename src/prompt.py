@@ -38,12 +38,17 @@ prompt_path_is_not_readable = """输入的路径不可读！\n"""
 # 路径不可写
 prompt_path_is_not_writeable = """输入的路径不可写！\n"""
 
-# 路径不存在项目(不存在.synchash文件)，即未初始化
-prompt_sync_hash_file_is_not_exist = """输入的路径不存在项目！\n"""
+# 路径不存在项目，即未初始化
+prompt_sync_hash_file_is_not_exists = """输入的路径不存在项目！\n"""
+
+# 输入的路径已经存在项目
+prompt_sync_hash_file_is_exists = """输入的路径已经存在项目! \n """
 
 # udisk路径中文件夹名称和本地的不同
-prompt_path_name_is_not_same = """udisk路径中文件夹名称和本地的不同！\n"""
+prompt_path_name_is_not_same = """u盘路径中文件夹名称和本地的不同！\n"""
 
-# 本地目录输入成功
+# udisk路径中文件夹名称和本地的不同
+prompt_path_is_not_empty = """本地目录不为空！\n"""
+
+# 目录输入成功
 prompt_path_success = """目录输入成功！\n"""
-
