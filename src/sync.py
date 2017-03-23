@@ -51,41 +51,53 @@ def local_to_udisk():
 
 
 # @author shiweihua
-# TODO 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
+# TODO 需要测试 shiweihua
+# 根据节点信息，把本地文件移动到U盘（如果文件已经存在，则覆盖） shiweihua
 def move_to_udisk(local_path, udisk_path, node):
     # 从node中取出相对路径relative_path
+    relative_path = node.get_path()
     # 拼接相对路径得到绝对路径（local_absolute_path）
+    local_absolute_path = path.change_relative_path_to_absolute_path(local_path, relative_path)
     # 把本地文件移动到U盘
-    # move_one_file(local_absolute_path, udisk_path, relative_path)
-    pass
+    move_one_file(local_absolute_path, udisk_path, relative_path)
 
 
 # @author shiweihua
-# TODO 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
+# TODO 需要测试 shiweihua
+# 根据节点信息，把U盘文件移动到本地(如果文件已经存在，则覆盖) shiweihua
 def move_to_local(local_path, udisk_path, node):
     # 从node中取出相对路径relative_path
+    relative_path = node.get_path()
     # 拼接相对路径得到绝对路径（udisk_absolute_path）
+    udisk_absolute_path = path.change_relative_path_to_absolute_path(udisk_path, relative_path)
     # 把本地文件移动到本地
-    # move_one_file(udisk_absolute_path, local_path, relative_path)
-    pass
+    move_one_file(udisk_absolute_path, local_path, relative_path)
 
 
 # @author shiweihua
-# TODO 根据节点信息,删除U盘中的文件 shiweihua
+# TODO 需要测试 shiweihua
+# 根据节点信息,删除U盘中的文件 shiweihua
 def delete_from_udisk(udisk_path, node):
     # 从node中取出相对路径relative_path
+    relative_path = node.get_path()
     # 拼接相对路径得到绝对路径（udisk_absolute_path）
+    udisk_absolute_path = path.change_relative_path_to_absolute_path(udisk_path, relative_path)
     # 如果存在这个文件，则删掉它
-    pass
+    if os.path.exists(udisk_absolute_path):
+        os.remove(udisk_absolute_path)
 
 
 # @author shiweihua
-# TODO 根据节点信息,删除本地中的文件 shiweihua
+# TODO 需要测试 shiweihua
+# 根据节点信息,删除本地中的文件 shiweihua
 def delete_from_local(local_path, node):
     # 从node中取出相对路径relative_path
+    relative_path = node.get_path()
     # 拼接相对路径得到绝对路径（local_absolute_path）
+    local_absolute_path = path.change_relative_path_to_absolute_path(local_path, relative_path)
     # 如果存在这个文件，则删掉它
-    pass
+    if os.path.exists(local_absolute_path):
+        os.remove(local_absolute_path)
 
 
 # @author shiweihua
