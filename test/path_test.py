@@ -37,7 +37,8 @@ class TestPath(unittest.TestCase):
         i = 0
         length = len(absolute_paths)
         while i < length:
-            self.assertEqual(expect_paths[i], path.change_absolute_path_to_relative_path(path.local_path, absolute_paths[i]))
+            self.assertEqual(expect_paths[i],
+                             path.change_absolute_path_to_relative_path(path.local_path, absolute_paths[i]))
             i += 1
 
     # 测试方法：change_relative_path_to_absolute_path
@@ -50,5 +51,42 @@ class TestPath(unittest.TestCase):
         i = 0
         length = len(relative_paths)
         while i < length:
-            self.assertEqual(expect_paths[i], path.change_relative_path_to_absolute_path(path.local_path, relative_paths[i]))
+            self.assertEqual(expect_paths[i],
+                             path.change_relative_path_to_absolute_path(path.local_path, relative_paths[i]))
             i += 1
+
+    # 测试方法：is_current_dir_same
+    def test_is_current_dir_same(self):
+        path.local_path = "/usr/local/test/"
+        input_paths = ["/usr/disk" + os.sep + "test", "/usr/disk" + os.sep + "test/", "/usr/disk" + os.sep + "tests"]
+        expect_output = [True, True, False]
+        i = 0
+        length = len(input_paths)
+        while i < length:
+            self.assertEqual(expect_output[i], path.is_current_dir_same(input_paths[i]))
+            i += 1
+
+    # 测试方法：is_project_exists
+    def test_is_project_exists(self):
+        if os.path.exists(".sync"):
+            for item in os.listdir(".sync"):
+                os.remove(".sync" + os.path.sep + item)
+            os.removedirs(".sync")
+        self.assertEqual(False, path.is_project_exists("."))
+        os.mkdir(".sync")
+        self.assertEqual(False, path.is_project_exists("."))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(True, path.is_project_exists("."))
+
+    # 测试方法：is_path_empty
+    def test_is_path_empty(self):
+        if os.path.exists(".sync"):
+            for item in os.listdir(".sync"):
+                os.remove(".sync" + os.path.sep + item)
+            os.removedirs(".sync")
+        os.mkdir(".sync")
+        self.assertEqual(True, path.is_path_empty(".sync"))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(False, path.is_path_empty(".sync"))

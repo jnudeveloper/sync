@@ -15,7 +15,7 @@ def is_path_valid_and_has_project(path, device_type="local"):
     path_valid = True
     if not is_path_valid(path, device_type):
         path_valid = False
-    elif not is_sync_hash_exists(path):
+    elif not is_project_exists(path):
         print prompt.prompt_sync_hash_file_is_not_exist
         # .synchash文件不存在
         path_valid = False
@@ -46,16 +46,31 @@ def is_path_valid(path, device_type="local"):
     return path_valid
 
 
-# 判断.synchash文件是否存在
-# .synchash 存在：返回True， 不存在：返回False
-def is_sync_hash_exists(path):
-    return os.path.isfile(path + os.path.sep + ".synchash")
+# 判断文件夹是否为空
+# 为空：返回True， 不为空：返回False
+# author 李国雄
+def is_path_empty(path):
+    if os.listdir(path):
+        return False
+    return True
+
+
+# 判断项目是否存在：存在.sync文件夹，.sync文件夹中存在.synchash文件
+# 项目存在：返回True， 不存在：返回False
+# author 李国雄
+def is_project_exists(path):
+    if not os.path.exists(path + os.path.sep + ".sync"):
+        return False
+    if not os.path.isfile(path + os.path.sep + ".sync" + os.path.sep + ".synchash"):
+        return False
+    return True
 
 
 # 判断目录是否可写
 # 可写：返回 True ， 不可写：返回  False
+# author 李国雄
 def is_writeable(path):
-    # TODO liguoxiong
+    # TODO 方法未测试 liguoxiong
     if os.access(path, os.F_OK) and os.access(path, os.W_OK):
         return True
     if os.access(path, os.F_OK) and not os.access(path, os.W_OK):
@@ -64,35 +79,22 @@ def is_writeable(path):
 
 # 判断目录是否可读
 # 可读：返回 True  ，  不可读：返回  False
+# author 李国雄
 def is_readable(path):
+    # TODO 方法未测试 liguoxiong
     if os.access(path, os.F_OK) and os.access(path, os.R_OK):
         return True
     return False
 
 
 # 判断udisk路径和本地路径的当前目录是否同名
-def is_current_dir_same(path):
-    local_path_dirname = os.path.dirname(local_path)
-    udisk_path_dirname = os.path.dirname(path)
-    local_path_basename_with_sep = os.path.basename(local_path_dirname)
-    udisk_path_basename_with_sep = os.path.basename(udisk_path_dirname)
-    local_path_basename_without_sep = os.path.basename(local_path)
-    udisk_path_basename_without_sep = os.path.basename(path)
-    if local_path.endswith(os.sep) \
-            and path.endswith(os.sep) \
-            and local_path_basename_with_sep == udisk_path_basename_with_sep:
-        return True
-    if (not local_path.endswith(os.sep)) \
-            and path.endswith(os.sep) \
-            and local_path_basename_without_sep == udisk_path_basename_with_sep:
-        return True
-    if local_path.endswith(os.sep) \
-            and (not path.endswith(os.sep)) \
-            and local_path_basename_with_sep == udisk_path_basename_without_sep:
-        return True
-    if (not local_path.endswith(os.sep)) \
-            and (not path.endswith(os.sep)) \
-            and local_path_basename_without_sep == udisk_path_basename_without_sep:
+# author 李国雄
+def is_current_dir_same(udisk_path_name):
+    local_path_name = delete_last_slash(local_path)
+    local_path_basename = os.path.basename(local_path_name)
+    udisk_path_name = delete_last_slash(udisk_path_name)
+    udisk_path_basename = os.path.basename(udisk_path_name)
+    if local_path_basename == udisk_path_basename:
         return True
     return False
 
