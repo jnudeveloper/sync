@@ -49,6 +49,20 @@ def is_path_valid_and_is_project_exists(path):
     return path_valid
 
 
+# 路径有效 和 路径存在项目 和 目录同名 和 存在全量目录
+# 目录存在、可读、可写、存在项目、目录同名、存在全量目录
+# 符合要求返回True，否则返回False
+# author 李国雄
+def is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(path):
+    path_valid = True
+    if not is_path_valid_and_is_project_exists_and_is_dir_same(path):
+        path_valid = False
+    elif not is_path_have_all_the_project(path):
+        print prompt.prompt_do_not_have_all_the_project
+        path_valid = False
+    return path_valid
+
+
 # 路径有效 和 路径不存在项目
 # 目录存在、可读、可写、不存在项目
 # 符合要求返回True，否则返回False
@@ -89,6 +103,15 @@ def is_path_valid(path):
 # author 李国雄
 def is_path_empty(path):
     if os.listdir(path):
+        return False
+    return True
+
+
+# 判断文件夹是否含有全量目录
+# 存在返回：True， 不存在返回：False
+# author 李国雄
+def is_path_have_all_the_project(path):
+    if not os.path.exists(path + os.path.sep + ".sync" + os.path.sep + ".all"):
         return False
     return True
 
@@ -192,6 +215,20 @@ def get_valid_path_with_project_is_not_exists(prompt_str):
         return delete_last_slash(path)
 
 
+# 路径有效 和 路径存在项目 和 目录同名 和 存在全量目录
+# 目录存在、可读、可写、存在项目、目录同名、存在全量目录
+# author 李国雄
+def get_valid_path_with_project_same_name_and_all_the_project(prompt_str):
+    path = raw_input(prompt_str)
+    while not is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(path):
+        # 路径无效时，继续输入
+        path = raw_input(prompt.prompt_do_not_have_all_the_project)
+    else:
+        # 路径有效时, 提示输入成功
+        print prompt.prompt_path_success
+        return delete_last_slash(path)
+
+
 # 把本地的绝对路径变成相对路径
 # author 李国雄
 # 如果根目录sync_path为：/usr/bin 、绝对路径为：/usr/bin/path/test/ ， 则得到的相对路径为：path/test(前后都没有分隔符)
@@ -229,6 +266,7 @@ def add_last_slash(path):
 
 # @author shiwehua
 #  遍历给出的目录，以数组形式返回目录下的所有文件的路径
+# TODO review一下看有没有错 shiweihua
 def traverse_sync(path):
     file_path_arr = []
     for root, dirs, files in os.walk(path):

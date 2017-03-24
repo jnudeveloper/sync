@@ -3,6 +3,7 @@
 # 测试path模块
 from __future__ import absolute_import
 import unittest
+import shutil
 import os
 from src import path
 
@@ -85,6 +86,20 @@ class TestPath(unittest.TestCase):
         file_new.close()
         self.assertEqual(True, path.is_project_exists("."))
 
+    # 测试方法：is_path_have_all_the_project
+    # author 李国雄
+    def test_is_path_have_all_the_project(self):
+        if os.path.exists(".sync"):
+            shutil.rmtree(".sync")
+        self.assertEqual(False, path.is_path_have_all_the_project("."))
+        os.mkdir(".sync")
+        self.assertEqual(False, path.is_path_have_all_the_project("."))
+        file_new = file("." + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(False, path.is_path_have_all_the_project("."))
+        os.mkdir("." + os.path.sep + ".sync" + os.path.sep + ".all")
+        self.assertEqual(True, path.is_path_have_all_the_project("."))
+
     # 测试方法：is_path_empty
     # author 李国雄
     def test_is_path_empty(self):
@@ -161,3 +176,18 @@ class TestPath(unittest.TestCase):
         file_new = file("." + os.path.sep + "test" + os.path.sep + "a.txt", "w")
         file_new.close()
         self.assertEqual(False, path.is_path_valid_and_is_path_empty("." + os.path.sep + "test"))
+
+    # 测试方法：is_path_valid_and_is_project_exists_and_has_all_the_project
+    # author 李国雄
+    def test_is_path_valid_and_is_project_exists_and_has_all_the_project(self):
+        path.local_path = "test"
+        if os.path.exists(".sync"):
+            shutil.rmtree(".sync")
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        os.mkdir(".sync")
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        file_new = file(".." + os.path.sep + "test" + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
+        file_new.close()
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        os.mkdir(".." + os.path.sep + "test" + os.path.sep + ".sync" + os.path.sep + ".all")
+        self.assertEqual(True, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))

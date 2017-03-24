@@ -80,6 +80,7 @@ def run():
                 add_in_other = add_in_other.get_next_node()
         # 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
         for i in range(hash_algorithm.sync_hash_length):
+            # TODO sync_hash_udisk应该是sync_hash_local？ shiweihua
             delete_in_other = sync_hash_udisk[i]
             while delete_in_other != None:
                 sync.delete_from_local(path.local_path, delete_in_other)
@@ -111,6 +112,7 @@ def run():
             node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
             if node_in_udisk != None:  # 判断节点是否在sync_hash_udisk中
                 # 如果在sync_hash_udisk中，计算文件内容hash
+                # TODO 这里应该传绝对路径吧 shiweihua
                 content_hashcode = hash_algorithm.get_content_hashcode(relative_path)
                 if content_hashcode != node_in_udisk.get_content_hashcode():
                     # 把该文件节点放到diff数组中
@@ -126,6 +128,7 @@ def run():
                 add_in_local.append(node)
         # 根据diff数组,把本地对应的文件覆盖U盘的文件,同时修改sync_hash_udisk上相应节点中的content_hash shiweihua
         for diff_node in diff:
+            # TODO 为什么是移动到本地？ 写错了？ shiweihua
             sync.move_to_local(path.local_path, path.udisk_path, diff_node)
             # 修改sync_hash_udisk上相应节点中的content_hash
             sync_hash_udisk.change_content_hashcode_by_name_hashcode(
@@ -155,7 +158,7 @@ def run():
     elif num == 3:  # 全量pull
         # 获取路径
         path.local_path = path.get_valid_path_with_path_empty(prompt.prompt_local_path)
-        path.udisk_path = path.get_valid_path_with_project_same_name(prompt.prompt_udisk_path)
+        path.udisk_path = path.get_valid_path_with_project_same_name_and_all_the_project(prompt.prompt_udisk_path)
         # 将U盘.sync目录下的同步目录同步到本地并将U盘的.synchash文件复制到本地 shiweihua
         sync.fully_pull(path.udisk_path, path.local_path)
         # 将U盘.sync目录下的同步目录删除 shiweihua
