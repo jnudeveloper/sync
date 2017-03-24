@@ -147,7 +147,7 @@ def get_valid_path_with_project(prompt_str):
     else:
         # 路径有效时, 提示输入成功
         print prompt.prompt_path_success
-        return path
+        return delete_last_slash(path)
 
 
 # 循环获取路径，直到路径有效、存在项目和同名
@@ -161,7 +161,7 @@ def get_valid_path_with_project_same_name(prompt_str):
     else:
         # 路径有效时, 提示输入成功
         print prompt.prompt_path_success
-        return path
+        return delete_last_slash(path)
 
 
 # 循环获取路径，直到路径有效、路径为空
@@ -175,7 +175,7 @@ def get_valid_path_with_path_empty(prompt_str):
     else:
         # 路径有效时, 提示输入成功
         print prompt.prompt_path_success
-        return path
+        return delete_last_slash(path)
 
 
 # 循环获取路径，直到路径有效、不存在项目（目录不一定为空）
@@ -189,7 +189,8 @@ def get_valid_path_with_project_is_not_exists(prompt_str):
     else:
         # 路径有效时, 提示输入成功
         print prompt.prompt_path_success
-        return path
+        return delete_last_slash(path)
+
 
 # 把本地的绝对路径变成相对路径
 # author 李国雄
@@ -208,7 +209,7 @@ def change_relative_path_to_absolute_path(sync_path, relative_path):
         relative_path = relative_path[1:]
     relative_path = delete_last_slash(relative_path)
     absolute_path = delete_last_slash(sync_path) + os.sep + relative_path
-    return absolute_path
+    return delete_last_slash(absolute_path)
 
 
 # 去掉路径的最后的斜杠(不管数量多少，全部去掉)。如果路径最后没有斜杠，则不再操作，直接返回原路径
