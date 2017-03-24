@@ -5,7 +5,9 @@ import os
 from src import sync
 from src import synchash
 import shutil
-from shutil import copytree, ignore_patterns
+from shutil import copytree
+from src import serialize
+from src import path
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
@@ -73,12 +75,44 @@ def fully_pull(udisk_path, local_path):
                  local_path + os.sep + ".sync" + os.sep + ".synchash")
 
 
-udisk_path = "E:\\py_test\\other"
-local_path = "E:\\py_test\\test"
+# udisk_path = "E:\\py_test\\other"
+# local_path = "E:\\py_test\\test"
 
 # fully_pull(udisk_path, local_path)
 
-shutil.rmtree(udisk_path + os.sep + ".sync" + os.sep + ".all")
+# shutil.rmtree(udisk_path + os.sep + ".sync" + os.sep + ".all")
 
 
+# TODO 由于synchash.fill_sync_hash_list(sync_hash_list)还未实现，所以这个函数没有测试 shiweihua
+# 本地项目初始化  见本地项目初始化流程图 shiweihua
+def init_local():
+    # 新建一个sync_hash数组链表 shiweihua
+    sync_hash_list = synchash.FileHashList()
+    # 递归扫描本地同步目录填充sync_hash数组链表 shiweihua
+    sync_hash_list = synchash.fill_sync_hash_list(sync_hash_list)
+    # 将sync_hash_list序列化到本地
+    serialize.serialize(sync_hash_list, path.local_path + os.sep + ".sync")
+
+
+# @author shiweihua
+# 将本地的所有文件复制到U盘的全量目录下
+def fully_push(local_path, udisk_path):
+    if os.path.exists(udisk_path + os.sep + ".sync" + os.sep + ".all"):
+        shutil.rmtree(udisk_path + os.sep + ".sync" + os.sep + ".all")
+    full_dst_dir = udisk_path + os.sep + ".sync" + os.sep + ".all"
+    os.mkdir(full_dst_dir)
+    folders = os.listdir(local_path)
+    for folder in folders:
+        if folder != ".sync":
+            full_src_path = local_path + os.sep + folder
+            if os.path.isdir(full_src_path):
+                copytree(full_src_path, full_dst_dir + os.sep + folder)
+            elif os.path.isfile(full_src_path):
+                shutil.copy2(full_src_path, full_dst_dir)
+
+
+udisk_path = "E:\\py_test\\other"
+local_path = "E:\\py_test\\test"
+
+fully_push(local_path, udisk_path)
 

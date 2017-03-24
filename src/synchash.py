@@ -93,6 +93,6 @@ class FileHashNode(object):
         pass
 
 
-# TODO 遍历本地目录，填充一个sync_hash数组链表 skywhat
+# TODO 遍历本地目录，填充一个sync_hash数组链表 返回一个填满的sync_hash数组链表 skywhat
 def fill_sync_hash_list(sync_hash_list):
     pass
