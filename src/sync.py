@@ -45,7 +45,7 @@ def delete_from_udisk(udisk_path, node):
 
 # @author shiweihua
 # 根据节点信息,删除本地中的文件 shiweihua
-# TODO 和delete_from_udisk差不多，可不可以合成一个？ shiweihua
+# TODO 和delete_from_udisk差不多，可不可以合成一个？ shiweihua （因为这个函数是之前定义的，我怕你们会调用这个函数，所有就没有合并成一个by shiweihua）
 def delete_from_local(local_path, node):
     # 从node中取出相对路径relative_path
     relative_path = node.get_path()
@@ -177,8 +177,8 @@ def incrementally_pull():
             add_in_other = add_in_other.get_next_node()
     # 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
-        # TODO sync_hash_udisk应该是sync_hash_local？ shiweihua
-        delete_in_other = sync_hash_udisk[i]
+        # TODO sync_hash_udisk应该是sync_hash_local？ shiweihua(已修改by shiweihua 如果没问题就将TODO去掉)
+        delete_in_other = sync_hash_local[i]
         while delete_in_other != None:
             delete_from_local(path.local_path, delete_in_other)
             delete_in_other = delete_in_other.get_next_node()
@@ -208,8 +208,8 @@ def incrementally_push():
         node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
         if node_in_udisk != None:  # 判断节点是否在sync_hash_udisk中
             # 如果在sync_hash_udisk中，计算文件内容hash
-            # TODO 这里应该传绝对路径吧 shiweihua
-            content_hashcode = hash_algorithm.get_content_hashcode(relative_path)
+            # TODO 这里应该传绝对路径吧 shiweihua (已修改 by shiweihua， 如果没问题就把TODO去掉)
+            content_hashcode = hash_algorithm.get_content_hashcode(filename)
             if content_hashcode != node_in_udisk.get_content_hashcode():
                 # 把该文件节点放到diff数组中
                 node = synchash.FileHashNode(path.local_path, relative_path)
@@ -224,8 +224,8 @@ def incrementally_push():
             add_in_local.append(node)
     # 根据diff数组,把本地对应的文件覆盖U盘的文件,同时修改sync_hash_udisk上相应节点中的content_hash shiweihua
     for diff_node in diff:
-        # TODO 为什么是移动到本地？ 写错了？ shiweihua
-        move_to_local(path.local_path, path.udisk_path, diff_node)
+        # TODO 为什么是移动到本地？ 写错了？ shiweihua(已修改 by shiweihua 如果没问题就把TODO去掉)
+        move_to_udisk(path.local_path, path.udisk_path, diff_node)
         # 修改sync_hash_udisk上相应节点中的content_hash
         sync_hash_udisk.change_content_hashcode_by_name_hashcode(
             diff_node.get_name_hashcode(), diff_node.get_content_hashcode)
