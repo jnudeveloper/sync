@@ -141,10 +141,10 @@ def incrementally_pull():
     # 遍历比较sync_hash_local和sync_hash_udisk，得到数组diff、sync_hash_udisk、sync_hash_local 看增量pull流程图 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
         local_node = sync_hash_local[i]
-        while local_node != None:
+        while local_node is not None:
             temp_flag = 0
             udisk_node = sync_hash_udisk[i]
-            while udisk_node != None:
+            while udisk_node is not None:
                 udisk_name_hash = udisk_node.get_name_hashcode()
                 local_name_hash = local_node.get_name_hashcode()
                 if udisk_name_hash == local_name_hash:
@@ -171,7 +171,7 @@ def incrementally_pull():
     # 根据现在的sync_hash_udisk， 把U盘新增的文件复制到本地， 同时把U盘上的该文件删除 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
         add_in_other = sync_hash_udisk[i]
-        while add_in_other != None:
+        while add_in_other is not None:
             move_to_local(path.local_path, path.udisk_path, add_in_other)
             delete_from_udisk(path.udisk_path, add_in_other)
             add_in_other = add_in_other.get_next_node()
@@ -179,7 +179,7 @@ def incrementally_pull():
     for i in range(hash_algorithm.sync_hash_length):
         # TODO sync_hash_udisk应该是sync_hash_local？ shiweihua(已修改by shiweihua 如果没问题就将TODO去掉)
         delete_in_other = sync_hash_local[i]
-        while delete_in_other != None:
+        while delete_in_other is not None:
             delete_from_local(path.local_path, delete_in_other)
             delete_in_other = delete_in_other.get_next_node()
     # 把U盘的.synchash文件复制到本地 shiweihua
@@ -206,7 +206,7 @@ def incrementally_push():
         # 计算文件名hash
         name_hashcode = hash_algorithm.get_name_hashcode(relative_path)
         node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
-        if node_in_udisk != None:  # 判断节点是否在sync_hash_udisk中
+        if node_in_udisk is not None:  # 判断节点是否在sync_hash_udisk中
             # 如果在sync_hash_udisk中，计算文件内容hash
             # TODO 这里应该传绝对路径吧 shiweihua (已修改 by shiweihua， 如果没问题就把TODO去掉)
             content_hashcode = hash_algorithm.get_content_hashcode(filename)
@@ -215,7 +215,7 @@ def incrementally_push():
                 node = synchash.FileHashNode(path.local_path, relative_path)
                 diff.append(node)
         node_in_local = sync_hash_local.find_by_name_hashcode(name_hashcode)
-        if node_in_local != None:  # 判断节点是否在sync_hash_local中
+        if node_in_local is not None:  # 判断节点是否在sync_hash_local中
             # 如果在sync_hash_local中则从sync_hash_local中删除这个节点
             sync_hash_local.delete_by_name_hashcode(name_hashcode)
         else:
@@ -235,12 +235,12 @@ def incrementally_push():
         move_to_udisk(path.local_path, path.udisk_path, add_in_local_node)
         # 遍历sync_hash_udisk， 如果该节点存在， 则不做任何操作,否则把新增的节点添加到sync_hash_udisk上 shiweihua
         tmp_node = sync_hash_udisk.find_by_name_hashcode(add_in_local_node.get_name_hashcode())
-        if tmp_node != None:
+        if tmp_node is not None:
             sync_hash_udisk.insert(tmp_node)
     # 根据sync_hash_local（delete_in_local） 数组，删除U盘上的文件,同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作） shiweihua
     for i in range(hash_algorithm.sync_hash_length):
         delete_in_local = sync_hash_local[i]
-        while delete_in_local != None:
+        while delete_in_local is not None:
             delete_from_udisk(path.local_path, delete_in_local)
             # 同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作）
             sync_hash_udisk.delete_by_name_hashcode(delete_in_local.get_name_hashcode())
