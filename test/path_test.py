@@ -183,11 +183,15 @@ class TestPath(unittest.TestCase):
         path.local_path = "test"
         if os.path.exists(".sync"):
             shutil.rmtree(".sync")
-        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(
+            ".." + os.path.sep + "test"))
         os.mkdir(".sync")
-        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(
+            ".." + os.path.sep + "test"))
         file_new = file(".." + os.path.sep + "test" + os.path.sep + ".sync" + os.path.sep + ".synchash", "w")
         file_new.close()
-        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        self.assertEqual(False, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(
+            ".." + os.path.sep + "test"))
         os.mkdir(".." + os.path.sep + "test" + os.path.sep + ".sync" + os.path.sep + ".all")
-        self.assertEqual(True, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(".." + os.path.sep + "test"))
+        self.assertEqual(True, path.is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(
+            ".." + os.path.sep + "test"))
