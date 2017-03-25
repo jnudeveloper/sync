@@ -115,3 +115,14 @@ def init_local():
     sync_hash_list = synchash.fill_sync_hash_list(sync_hash_list)
     # 将sync_hash_list序列化到本地
     serialize.serialize(sync_hash_list, path.local_path + os.sep + ".sync")
+
+
+# TODO 未测试 shiweihua
+# 初始化U盘
+def init_udisk():
+    # 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
+    os.mkdir(path.udisk_path + os.sep + ".sync")
+    os.mknod(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
+    # 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
+    sync_hash = synchash.FileHashList()
+    serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")

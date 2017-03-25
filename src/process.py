@@ -202,11 +202,7 @@ def run():
         # 获取路径
         # 输入U盘目录（该目录要满足： 有效性、 文件夹为空）
         path.udisk_path = path.get_valid_path_with_path_empty(prompt.prompt_udisk_path)
-        # 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
-        os.mkdir(path.udisk_path + os.sep + ".sync")
-        os.mknod(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
-        # 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
-        sync_hash = synchash.FileHashList()
-        serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")
+        # 初始化U盘
+        sync.init_udisk()
         print "U盘初始化完成，程序正常退出！"
         exit()
