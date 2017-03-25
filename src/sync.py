@@ -6,6 +6,7 @@ import shutil
 from shutil import copytree
 import synchash
 import serialize
+import hash_algorithm
 
 
 # @author shiweihua
@@ -115,3 +116,136 @@ def init_local():
     sync_hash_list = synchash.fill_sync_hash_list(sync_hash_list)
     # 将sync_hash_list序列化到本地
     serialize.serialize(sync_hash_list, path.local_path + os.sep + ".sync")
+
+
+# TODO 未测试 shiweihua
+# 初始化U盘
+def init_udisk():
+    # 在U盘上新建.sync文件夹， 在文件夹.sync中新建.synchash空文件 shiweihua
+    os.mkdir(path.udisk_path + os.sep + ".sync")
+    os.mknod(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
+    # 初始化一个sync_hash空数组链表，序列化到U盘的.sync文件夹下的.synchash文件中 shiweihua
+    sync_hash = synchash.FileHashList()
+    serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")
+
+
+# TODO 未测试 shiweihua
+# 增量pull
+def incrementally_pull():
+    # 初始化diff数组 shiweihua
+    diff = []
+    # 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
+    sync_hash_local = serialize.deserialize(path.local_path + os.sep + ".sync")
+    # 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
+    sync_hash_udisk = serialize.deserialize(path.udisk_path + os.sep + ".sync")
+    # 遍历比较sync_hash_local和sync_hash_udisk，得到数组diff、sync_hash_udisk、sync_hash_local 看增量pull流程图 shiweihua
+    for i in range(hash_algorithm.sync_hash_length):
+        local_node = sync_hash_local[i]
+        while local_node != None:
+            temp_flag = 0
+            udisk_node = sync_hash_udisk[i]
+            while udisk_node != None:
+                udisk_name_hash = udisk_node.get_name_hashcode()
+                local_name_hash = local_node.get_name_hashcode()
+                if udisk_name_hash == local_name_hash:
+                    # 两个节点的文件名hash相同
+                    udisk_content_hash = udisk_node.get_content_hashcode()
+                    local_content_hash = local_node.get_content_hashcode()
+                    if udisk_content_hash != local_content_hash:
+                        # 两个节点的文件名hash相同但文件内容hash不同，把udisk对应的节点放到diff数组中
+                        diff.append(udisk_node)
+                    local_node = local_node.get_next_node()
+                    sync_hash_local.delete_by_name_hashcode(local_name_hash)
+                    sync_hash_udisk.delete_by_name_hashcode(udisk_name_hash)
+                    temp_flag = 1
+                    break
+                udisk_node = udisk_node.get_next_node()
+            if temp_flag == 1:
+                continue
+            else:
+                local_node = local_node.get_next_node()
+    # 根据diff数组，把u盘对应的文件覆盖本地的文件，同时把U盘上的该文件删除 shiweihua
+    for diff_node in diff:
+        move_to_local(path.local_path, path.udisk_path, diff_node)
+        delete_from_udisk(path.udisk_path, diff_node)
+    # 根据现在的sync_hash_udisk， 把U盘新增的文件复制到本地， 同时把U盘上的该文件删除 shiweihua
+    for i in range(hash_algorithm.sync_hash_length):
+        add_in_other = sync_hash_udisk[i]
+        while add_in_other != None:
+            move_to_local(path.local_path, path.udisk_path, add_in_other)
+            delete_from_udisk(path.udisk_path, add_in_other)
+            add_in_other = add_in_other.get_next_node()
+    # 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
+    for i in range(hash_algorithm.sync_hash_length):
+        # TODO sync_hash_udisk应该是sync_hash_local？ shiweihua
+        delete_in_other = sync_hash_udisk[i]
+        while delete_in_other != None:
+            delete_from_local(path.local_path, delete_in_other)
+            delete_in_other = delete_in_other.get_next_node()
+    # 把U盘的.synchash文件复制到本地 shiweihua
+    shutil.copy2(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash",
+                 path.local_path + os.sep + ".sync" + os.sep + ".synchash")
+
+
+# TODO 未测试 shiweihua
+# 增量pull
+def incrementally_push():
+    # 初始化数组： add_in_local、 diff shiweihua
+    add_in_local = []
+    diff = []
+    # 反序列化本地的.synchash文件得到哈希数组链表sync_hash_local shiweihua
+    sync_hash_local = serialize.deserialize(path.local_path + os.sep + ".sync")
+    # 反序列化U盘的.synchash文件得到哈希数组链表sync_hash_udisk shiweihua
+    sync_hash_udisk = serialize.deserialize(path.udisk_path + os.sep + ".sync")
+    # 递归扫描本地目录，得到一个包含本地同步目录下所有文件路径的数组（.sync目录除外） shiweihua
+    file_path_arr = path.get_all_file_path(path.local_path)
+    # 根据file_path_arr数组计算diff、sync_hash_udisk、sync_hash_local 看增量push流程图 shiweihua
+    for filename in file_path_arr:
+        # 将绝对路径变成相对路径relative_path
+        relative_path = path.change_absolute_path_to_relative_path(path.local_path, filename)
+        # 计算文件名hash
+        name_hashcode = hash_algorithm.get_name_hashcode(relative_path)
+        node_in_udisk = sync_hash_udisk.find_by_name_hashcode(name_hashcode)
+        if node_in_udisk != None:  # 判断节点是否在sync_hash_udisk中
+            # 如果在sync_hash_udisk中，计算文件内容hash
+            # TODO 这里应该传绝对路径吧 shiweihua
+            content_hashcode = hash_algorithm.get_content_hashcode(relative_path)
+            if content_hashcode != node_in_udisk.get_content_hashcode():
+                # 把该文件节点放到diff数组中
+                node = synchash.FileHashNode(path.local_path, relative_path)
+                diff.append(node)
+        node_in_local = sync_hash_local.find_by_name_hashcode(name_hashcode)
+        if node_in_local != None:  # 判断节点是否在sync_hash_local中
+            # 如果在sync_hash_local中则从sync_hash_local中删除这个节点
+            sync_hash_local.delete_by_name_hashcode(name_hashcode)
+        else:
+            # 如果不在sync_hash_local中则把扫描的文件节点放到add_in_local中
+            node = synchash.FileHashNode(path.local_path, relative_path)
+            add_in_local.append(node)
+    # 根据diff数组,把本地对应的文件覆盖U盘的文件,同时修改sync_hash_udisk上相应节点中的content_hash shiweihua
+    for diff_node in diff:
+        # TODO 为什么是移动到本地？ 写错了？ shiweihua
+        move_to_local(path.local_path, path.udisk_path, diff_node)
+        # 修改sync_hash_udisk上相应节点中的content_hash
+        sync_hash_udisk.change_content_hashcode_by_name_hashcode(
+            diff_node.get_name_hashcode(), diff_node.get_content_hashcode)
+
+    # 根据add_in_local数组， 把本地新增的文件复制到U盘 shiweihua
+    for add_in_local_node in add_in_local:
+        move_to_udisk(path.local_path, path.udisk_path, add_in_local_node)
+        # 遍历sync_hash_udisk， 如果该节点存在， 则不做任何操作,否则把新增的节点添加到sync_hash_udisk上 shiweihua
+        tmp_node = sync_hash_udisk.find_by_name_hashcode(add_in_local_node.get_name_hashcode())
+        if tmp_node != None:
+            sync_hash_udisk.insert(tmp_node)
+    # 根据sync_hash_local（delete_in_local） 数组，删除U盘上的文件,同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作） shiweihua
+    for i in range(hash_algorithm.sync_hash_length):
+        delete_in_local = sync_hash_local[i]
+        while delete_in_local != None:
+            delete_from_udisk(path.local_path, delete_in_local)
+            # 同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作）
+            sync_hash_udisk.delete_by_name_hashcode(delete_in_local.get_name_hashcode())
+            delete_in_local = delete_in_local.get_next_node()
+    # 把sync_hash_udisk序列化到本地和U盘上的.synchash文件
+    serialize.serialize(sync_hash_udisk, path.local_path + os.sep + ".sync")
+    shutil.copy2(path.udisk_path + os.sep + ".sync" + os.sep + ".synchash",
+                 path.local_path + os.sep + ".sync" + os.sep + ".synchash")

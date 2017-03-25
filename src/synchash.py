@@ -12,7 +12,7 @@ class FileHashList(object):
     #  初始化定义属性，分清类属性与实例属性的区别
 
     def __init__(self):
-        self.hash_list = [None]*hash_algorithm.sync_hash_length
+        self.hash_list = [None] * hash_algorithm.sync_hash_length
 
     # 根据文件名把FileHashNode对象存入到哈希数组链表中的适当位置
     def insert(self, node):

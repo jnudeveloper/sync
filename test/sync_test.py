@@ -115,4 +115,3 @@ udisk_path = "E:\\py_test\\other"
 local_path = "E:\\py_test\\test"
 
 fully_push(local_path, udisk_path)
-
