@@ -266,7 +266,7 @@ def add_last_slash(path):
 
 # @author shiwehua
 #  遍历给出的目录，以数组形式返回目录下的所有文件的路径
-# TODO review一下看有没有错 shiweihua （所以有没有问题？ by shiweihua）
+# review一下看有没有错 shiweihua （所以有没有问题？ by shiweihua）(可以了，没问题  by 李国雄)
 def traverse_sync(path):
     file_path_arr = []
     for root, dirs, files in os.walk(path):
