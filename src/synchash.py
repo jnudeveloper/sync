@@ -44,31 +44,37 @@ class FileHashList(object):
     #  如果被删掉的node是FileHashList某条链表中剩下的最后一个节点了，则要把这个数组元素置为None，如果不理解这段话找shiweihua
     def delete_by_name_hashcode(self, name_hashcode):
         #  根据相对路径删除节点  skywhat
-        offset=hash_algorithm.get_hash_offset(name_hashcode)
-        node=self.hash_list[offset]
+        offset = hash_algorithm.get_hash_offset(name_hashcode)
+        node = self.hash_list[offset]
         while node is not None and node.name_hashcode != name_hashcode:
-            node=node.next_node
+            # TODO 不能直接使用类的属性（node.next_node），要使用对应的方法  node.get_next_node()  下面也一样
+            node = node.next_node
         if node is None:
+            # TODO 按照注释，这里应该返回-2吧？ skywhat
             return -1
         if node.next_node is None:
-            node=None
+            node = None
         else:
-            node.path=node.next_node.path
-            node.name_hashcode=node.next_node.name_hashcode
-            node.content_hashcode=node.next_node.content_hashcode
-            node.next_node=node.next_node.next_node
+            # TODO 用一个变量标志当前节点的前一个节点会不会容易实现？ skywhat
+            node.path = node.next_node.path
+            node.name_hashcode = node.next_node.name_hashcode
+            node.content_hashcode = node.next_node.content_hashcode
+            node.next_node = node.next_node.next_node
 
     # 根据name_hashcode修改content_hashcode
     def change_content_hashcode_by_name_hashcode(self, name_hashcode, content_hashcode):
         # 根据name_hashcode修改content_hashcode  skywhat
-        offset=hash_algorithm.get_hash_offset(name_hashcode)
-        node=self.hash_list[offset]
-        while node is not None and node.name_hashcode!=name_hashcode:
-            node=node.next_node
-        node.content_hashcode=content_hashcode
+        offset = hash_algorithm.get_hash_offset(name_hashcode)
+        node = self.hash_list[offset]
+        while node is not None and node.name_hashcode != name_hashcode:
+            node = node.next_node
+        node.content_hashcode = content_hashcode
 
 
 class FileHashNode(object):
+    # TODO 所有使用到该节点的地方，都要用get、set方法，不要直接操作变量 skywhat、shiweihua、liguoxiong
+    # TODO 这样set_name_hashcode、set_content_hashcode方法实现传入不同的参数（即重载） skywhat
+    # TODO 这两个方法现在是只能传入路径，能不能做到传入路径和直接传入值都可以？python没有重载，要查一下实现方法
     def __init__(self, sync_path, relative_path):
         self.path = relative_path  # path为相对路径
         self.next_node = None  # 下一节点
@@ -104,16 +110,16 @@ class FileHashNode(object):
     # 判断该节点的content_hash是否和传入的节点相同 skywhat
     # 若相同，返回True，不相同，返回False
     def is_equal_content_hash(self, node):
-        if self.name_hashcode==node.name_hashcode and self.content_hashcode==node.content_hashcode:
+        if self.name_hashcode == node.name_hashcode and self.content_hashcode == node.content_hashcode:
             return True
         else:
             return False
 
 
-#  遍历本地目录，填充一个sync_hash数组链表 返回一个填满的sync_hash数组链表 skywhat
+# 遍历本地目录，填充一个sync_hash数组链表 返回一个填满的sync_hash数组链表 skywhat
 def fill_sync_hash_list(sync_hash_list):
-    path_list=path.get_all_file_path(path.local_path)
+    path_list = path.get_all_file_path(path.local_path)
     for relative_path in path_list:
-        node=FileHashNode(path.local_path,relative_path)
+        node = FileHashNode(path.local_path, relative_path)
         sync_hash_list.insert(node)
     return sync_hash_list
