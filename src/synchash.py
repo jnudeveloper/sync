@@ -119,7 +119,9 @@ class FileHashNode(object):
 # 遍历本地目录，填充一个sync_hash数组链表 返回一个填满的sync_hash数组链表 skywhat
 def fill_sync_hash_list(sync_hash_list):
     path_list = path.get_all_file_path(path.local_path)
-    for relative_path in path_list:
+    for filename in path_list:
+        # 将绝对路径变成相对路径relative_path
+        relative_path = path.change_absolute_path_to_relative_path(path.local_path, filename)
         node = FileHashNode(path.local_path, relative_path)
         sync_hash_list.insert(node)
     return sync_hash_list

@@ -13,7 +13,7 @@ except:
 # author 李国雄
 def serialize(hash_list, path):
     if not os.path.exists(path):
-        return False
+        os.mkdir(path)
     file_stream = file(path + os.sep + ".synchash", "w")
     pickle.dump(hash_list, file_stream)
     file_stream.close()
