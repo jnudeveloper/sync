@@ -48,6 +48,19 @@ class TestSync(unittest.TestCase):
                     node_expect = node_expect.get_next_node()
                     node_actual = node_actual.get_next_node()
 
+    # 测试方法 init_udisk
+    # author 李国雄
+    def test_init_udisk(self):
+        if os.path.exists("test"):
+            shutil.rmtree("test")
+        os.mkdir("test")
+        path.udisk_path = "." + os.path.sep + "test"
+        sync.init_udisk()
+        hash_list_actual = serialize.deserialize(path.udisk_path + os.path.sep + ".sync")
+        node_expect = None
+        for index in range(hash_algorithm.sync_hash_length):
+            self.assertEqual(node_expect, hash_list_actual.hash_list[index])
+
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
 def test_move_one_file():
