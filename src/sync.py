@@ -109,7 +109,8 @@ def fully_push(local_path, udisk_path):
                 shutil.copy2(full_src_path, full_dst_dir)
 
 
-# TODO 由于synchash.fill_sync_hash_list(sync_hash_list)还未实现，所以这个函数没有测试 shiweihua
+# 由于synchash.fill_sync_hash_list(sync_hash_list)还未实现，所以这个函数没有测试 shiweihua
+# 已经测试 李国雄
 # 本地项目初始化  见本地项目初始化流程图 shiweihua
 def init_local():
     # 新建一个sync_hash数组链表 shiweihua

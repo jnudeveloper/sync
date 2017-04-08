@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # coding=utf-8
 # 测试sync模块
+from __future__ import absolute_import
+import unittest
 import os
 from src import sync
 from src import synchash
@@ -8,6 +10,43 @@ import shutil
 from shutil import copytree
 from src import serialize
 from src import path
+from src import hash_algorithm
+
+
+class TestSync(unittest.TestCase):
+    # 测试方法：init_local
+    # author 李国雄
+    def test_init_local(self):
+        if os.path.exists("test"):
+            shutil.rmtree("test")
+        os.mkdir("test")
+        os.mkdir("test" + os.path.sep + "test2")
+        file_temp = file("test" + os.path.sep + "test2" + os.path.sep + "test2_a.py", "w")
+        file_temp.write("test2_a")
+        file_temp.close()
+        file_temp = file("test" + os.path.sep + "a.txt", "w")
+        file_temp.write("test_a")
+        file_temp.close()
+        file_temp = file("test" + os.path.sep + "b.py", "w")
+        file_temp.write("test_b")
+        file_temp.close()
+
+        path.local_path = "." + os.path.sep + "test"
+        sync.init_local()
+        hash_list_actual = serialize.deserialize(path.local_path + os.path.sep + ".sync")
+        hash_list_expect = synchash.FileHashList()
+        hash_list_expect = synchash.fill_sync_hash_list(hash_list_expect)
+        for index in range(hash_algorithm.sync_hash_length):
+            if hash_list_actual.hash_list[index] is not None and hash_list_expect.hash_list[index] is not None:
+                node_actual = hash_list_actual.hash_list[index]
+                node_expect = hash_list_expect.hash_list[index]
+                while node_actual is not None and node_expect is not None:
+                    self.assertEqual(node_expect.get_path(), node_actual.get_path())
+                    self.assertEqual(node_expect.get_name_hashcode(), node_actual.get_name_hashcode())
+                    self.assertEqual(node_expect.get_content_hashcode(), node_actual.get_content_hashcode())
+                    self.assertEqual(node_expect.get_next_node(), node_actual.get_next_node())
+                    node_expect = node_expect.get_next_node()
+                    node_actual = node_actual.get_next_node()
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
@@ -110,8 +149,7 @@ def fully_push(local_path, udisk_path):
             elif os.path.isfile(full_src_path):
                 shutil.copy2(full_src_path, full_dst_dir)
 
+# udisk_path = "E:\\py_test\\other"
+# local_path = "E:\\py_test\\test"
 
-udisk_path = "E:\\py_test\\other"
-local_path = "E:\\py_test\\test"
-
-fully_push(local_path, udisk_path)
+# fully_push(local_path, udisk_path)
