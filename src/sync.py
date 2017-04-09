@@ -133,7 +133,8 @@ def init_udisk():
     serialize.serialize(sync_hash, path.udisk_path + os.sep + ".sync")
 
 
-# TODO 未测试 shiweihua
+# 未测试 shiweihua
+# 已经测试 李国雄
 # 增量pull
 def incrementally_pull():
     # 初始化diff数组 shiweihua
@@ -144,10 +145,10 @@ def incrementally_pull():
     sync_hash_udisk = serialize.deserialize(path.udisk_path + os.sep + ".sync")
     # 遍历比较sync_hash_local和sync_hash_udisk，得到数组diff、sync_hash_udisk、sync_hash_local 看增量pull流程图 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
-        local_node = sync_hash_local[i]
+        local_node = sync_hash_local.hash_list[i]
         while local_node is not None:
             temp_flag = 0
-            udisk_node = sync_hash_udisk[i]
+            udisk_node = sync_hash_udisk.hash_list[i]
             while udisk_node is not None:
                 udisk_name_hash = udisk_node.get_name_hashcode()
                 local_name_hash = local_node.get_name_hashcode()
@@ -174,7 +175,7 @@ def incrementally_pull():
         delete_from_udisk(path.udisk_path, diff_node)
     # 根据现在的sync_hash_udisk， 把U盘新增的文件复制到本地， 同时把U盘上的该文件删除 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
-        add_in_other = sync_hash_udisk[i]
+        add_in_other = sync_hash_udisk.hash_list[i]
         while add_in_other is not None:
             move_to_local(path.local_path, path.udisk_path, add_in_other)
             delete_from_udisk(path.udisk_path, add_in_other)
@@ -182,7 +183,7 @@ def incrementally_pull():
     # 根据现在的sync_hash_local， 在本地上删除U盘没有的文件 shiweihua
     for i in range(hash_algorithm.sync_hash_length):
         # sync_hash_udisk应该是sync_hash_local？ shiweihua(已修改by shiweihua 如果没问题就将TODO去掉)（已去 by 李国雄）
-        delete_in_other = sync_hash_local[i]
+        delete_in_other = sync_hash_local.hash_list[i]
         while delete_in_other is not None:
             delete_from_local(path.local_path, delete_in_other)
             delete_in_other = delete_in_other.get_next_node()
