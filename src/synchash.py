@@ -46,20 +46,22 @@ class FileHashList(object):
         #  根据相对路径删除节点  skywhat
         offset = hash_algorithm.get_hash_offset(name_hashcode)
         node = self.hash_list[offset]
-        while node is not None and node.name_hashcode != name_hashcode:
+        previous = self.hash_list[offset]
+        while node is not None and node.get_name_hashcode() != name_hashcode:
             # TODO 不能直接使用类的属性（node.next_node），要使用对应的方法  node.get_next_node()  下面也一样
-            node = node.next_node
+            previous = node
+            node = node.get_next_node()
         if node is None:
-            # TODO 按照注释，这里应该返回-2吧？ skywhat
-            return -1
-        if node.next_node is None:
+            return -2
+        elif node.get_next_node() is None:
             node = None
-        else:
-            # TODO 用一个变量标志当前节点的前一个节点会不会容易实现？ skywhat
-            node.path = node.next_node.path
-            node.name_hashcode = node.next_node.name_hashcode
-            node.content_hashcode = node.next_node.content_hashcode
-            node.next_node = node.next_node.next_node
+        elif node.get_next_node() is not None:
+            previous.set_next_node(node.get_next_node())
+            # 用一个变量标志当前节点的前一个节点会不会容易实现？ skywhat
+            # node.path = node.next_node.path
+            # node.name_hashcode = node.next_node.name_hashcode
+            # node.content_hashcode = node.next_node.content_hashcode
+            # node.next_node = node.next_node.next_node
 
     # 根据name_hashcode修改content_hashcode
     def change_content_hashcode_by_name_hashcode(self, name_hashcode, content_hashcode):

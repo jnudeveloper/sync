@@ -244,7 +244,7 @@ def incrementally_push():
             sync_hash_udisk.insert(tmp_node)
     # 根据sync_hash_local（delete_in_local） 数组，删除U盘上的文件,同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作） shiweihua
     for i in range(hash_algorithm.sync_hash_length):
-        delete_in_local = sync_hash_local[i]
+        delete_in_local = sync_hash_local.hash_list[i]
         while delete_in_local is not None:
             delete_from_udisk(path.local_path, delete_in_local)
             # 同时删除sync_hash_udisk上的相应节点（如果没有这个节点就不做任何操作）

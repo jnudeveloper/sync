@@ -109,7 +109,55 @@ class TestSync(unittest.TestCase):
         path.local_path = "." + os.path.sep + "test"
         path.udisk_path = "." + os.path.sep + "remote" + os.path.sep + "test"
         sync.incrementally_pull()
-        pass
+
+    # 测试方法： incrementally_push
+    # author 李国雄
+    def test_incrementally_push(self):
+        if os.path.exists("test"):
+            shutil.rmtree("test")
+        if os.path.exists("remote"):
+            shutil.rmtree("remote")
+        os.mkdir("test")
+        os.mkdir("remote")
+        os.mkdir("remote" + os.path.sep + "test")
+        # 本地文件
+        os.mkdir("test" + os.path.sep + "test_local")
+        file_temp = file("test" + os.path.sep + "test_local" + os.path.sep + "local_a.py", "w")
+        file_temp.write("local_a")
+        file_temp.close()
+        file_temp = file("test" + os.path.sep + "test_a.py", "w")
+        file_temp.write("test_a")
+        path.local_path = "." + os.path.sep + "test"
+        file_temp.close()
+        # 初始化
+        sync.init_local()
+        file_temp = file("test" + os.path.sep + "test_local" + os.path.sep + "local_b.py", "w")
+        file_temp.write("local_b")
+        file_temp.close()
+
+        # U盘文件
+        os.mkdir("remote" + os.path.sep + "test" + os.path.sep + "test_local")
+        os.mkdir("remote" + os.path.sep + "test" + os.path.sep + "test_local2")
+        file_temp = file("remote" + os.path.sep + "test" + os.path.sep + "test_local" + os.path.sep + "local_a2.py",
+                         "w")
+        file_temp.write("local_a")
+        file_temp.close()
+        file_temp = file("remote" + os.path.sep + "test" + os.path.sep + "test_local" + os.path.sep + "local_b.py", "w")
+        file_temp.write("local_bbbb")
+        file_temp.close()
+        file_temp = file("remote" + os.path.sep + "test" + os.path.sep + "test_local2" + os.path.sep + "local_b.py",
+                         "w")
+        file_temp.write("local_bbbb")
+        file_temp.close()
+        file_temp = file("remote" + os.path.sep + "test" + os.path.sep + "test_a.py", "w")
+        file_temp.write("test_a")
+        file_temp.close()
+        path.local_path = "." + os.path.sep + "remote" + os.path.sep + "test"
+        sync.init_local()
+
+        path.local_path = "." + os.path.sep + "test"
+        path.udisk_path = "." + os.path.sep + "remote" + os.path.sep + "test"
+        sync.incrementally_push()
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
