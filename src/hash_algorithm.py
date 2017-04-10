@@ -3,7 +3,7 @@
 import hashlib
 import math
 
-hash_sub_string_length = 1
+hash_sub_string_length = 3
 sync_hash_length = 16 ** hash_sub_string_length
 
 
