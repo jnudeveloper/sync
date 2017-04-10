@@ -49,14 +49,18 @@ class FileHashList(object):
         previous = self.hash_list[offset]
         while node is not None and node.get_name_hashcode() != name_hashcode:
             # TODO 不能直接使用类的属性（node.next_node），要使用对应的方法  node.get_next_node()  下面也一样
-            previous = node
-            node = node.get_next_node()
+            previous.set_next_node(node)
+            node.set_next_node(node.get_next_node())
         if node is None:
             return -2
-        elif node.get_next_node() is None:
-            node = None
-        elif node.get_next_node() is not None:
+        elif node.get_next_node() is None and node != self.hash_list[offset]:
+            previous.set_next_node(None)
+        elif node.get_next_node() is None and node == self.hash_list[offset]:
+            self.hash_list[offset] = None
+        elif node.get_next_node() is not None and node != self.hash_list[offset]:
             previous.set_next_node(node.get_next_node())
+        elif node.get_next_node() is not None and node == self.hash_list[offset]:
+            self.hash_list[offset] = node.get_next_node()
             # 用一个变量标志当前节点的前一个节点会不会容易实现？ skywhat
             # node.path = node.next_node.path
             # node.name_hashcode = node.next_node.name_hashcode
