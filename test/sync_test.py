@@ -159,6 +159,57 @@ class TestSync(unittest.TestCase):
         path.udisk_path = "." + os.path.sep + "remote" + os.path.sep + "test"
         sync.incrementally_push()
 
+    def test_incrementally_push_darkgel(self):
+        if os.path.exists("local_sync"):
+            shutil.rmtree("local_sync")
+        if os.path.exists("udisk_sync"):
+            shutil.rmtree("udisk_sync")
+        if os.path.exists("remote_sync"):
+            shutil.rmtree("remote_sync")
+        os.mkdir("local_sync")
+        os.mkdir("udisk_sync")
+        os.mkdir("remote_sync")
+        # 本地文件
+        file_temp = file("local_sync" + os.path.sep + "local_a.py", "w")
+        file_temp.write("local_a")
+        file_temp.close()
+        os.mkdir("local_sync" + os.path.sep + "a")
+        file_temp = file("local_sync" + os.path.sep + "a" + os.path.sep + "local_aa.py", "w")
+        file_temp.write("local_aa")
+        file_temp.close()
+
+        path.local_path = os.path.abspath(os.curdir) + os.path.sep + "local_sync"
+        path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
+        # 初始化本地同步目录
+        sync.init_local()
+        # 初始化U盘同步目录
+        sync.init_udisk()
+        # 将local全量同步到udisk上
+        sync.fully_push(path.local_path, path.udisk_path)
+        shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
+                     path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
+
+        # 将U盘上的全量同步到remote上
+        path.local_path = os.path.abspath(os.curdir) + os.path.sep + "remote_sync"
+        path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
+        sync.fully_pull(path.udisk_path, path.local_path)
+        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
+
+        # local上新增了文件
+        file_temp = file("local_sync" + os.path.sep + "local_new.py", "w")
+        file_temp.write("local_new")
+        file_temp.close()
+
+        # local增量push到udisk
+        path.local_path = os.path.abspath(os.curdir) + os.path.sep + "local_sync"
+        path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
+        sync.incrementally_push()
+
+        # udisk增量pull到remote
+        path.local_path = os.path.abspath(os.curdir) + os.path.sep + "remote_sync"
+        path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
+        sync.incrementally_pull()
+
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
 def test_move_one_file():
@@ -233,7 +284,6 @@ def fully_pull(udisk_path, local_path):
 # shutil.rmtree(udisk_path + os.sep + ".sync" + os.sep + ".all")
 
 
-# TODO 由于synchash.fill_sync_hash_list(sync_hash_list)还未实现，所以这个函数没有测试 shiweihua
 # 本地项目初始化  见本地项目初始化流程图 shiweihua
 def init_local():
     # 新建一个sync_hash数组链表 shiweihua
