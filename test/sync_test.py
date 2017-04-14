@@ -210,6 +210,27 @@ class TestSync(unittest.TestCase):
         path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
         sync.incrementally_pull()
 
+    def test_init(self):
+        if os.path.exists("E:" + os.path.sep + "sync_local" + os.path.sep + "test" + os.path.sep + ".sync"):
+            shutil.rmtree("E:" + os.path.sep + "sync_local" + os.path.sep + "test" + os.path.sep + ".sync")
+        if os.path.exists("E:" + os.path.sep + "sync_udisk" + os.path.sep + "test"):
+            shutil.rmtree("E:" + os.path.sep + "sync_udisk" + os.path.sep + "test")
+        if os.path.exists("E:" + os.path.sep + "sync_remote" + os.path.sep + "test"):
+            shutil.rmtree("E:" + os.path.sep + "sync_remote" + os.path.sep + "test")
+        os.mkdir("E:" + os.path.sep + "sync_udisk" + os.path.sep + "test")
+        os.mkdir("E:" + os.path.sep + "sync_remote" + os.path.sep + "test")
+        path.local_path = "E:" + os.path.sep + "sync_local" + os.path.sep + "test"
+        path.udisk_path = "E:" + os.path.sep + "sync_udisk" + os.path.sep + "test"
+        sync.init_local()
+        sync.init_udisk()
+        sync.fully_push(path.local_path, path.udisk_path)
+        shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
+                     path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
+
+        path.local_path = "E:" + os.path.sep + "sync_remote" + os.path.sep + "test"
+        sync.fully_pull(path.udisk_path, path.local_path)
+        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
+
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
 def test_move_one_file():
