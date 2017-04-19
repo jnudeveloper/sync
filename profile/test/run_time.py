@@ -93,10 +93,10 @@ def test_run_time():
     file_temp.write("update_local_test_3.txt local_update")
     file_temp.close()
     # 6.本地删除文件
-    os.remove(test_local_path + os.path.sep + "test" + os.path.sep + "update_local_test_1.txt")
-    os.remove(test_local_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "update_local_test_2.txt")
+    os.remove(test_local_path + os.path.sep + "test" + os.path.sep + "delete_local_test_1.txt")
+    os.remove(test_local_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "delete_local_test_2.txt")
     os.remove(
-        test_local_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "test3" + os.path.sep + "update_local_test_3.txt")
+        test_local_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "test3" + os.path.sep + "delete_local_test_3.txt")
     # 7.远程新增文件
     file_temp = file(test_remote_path + os.path.sep + "test" + os.path.sep + "add_remote_test_1.txt", "w")
     file_temp.write("add_remote_test_1.txt")
@@ -124,11 +124,11 @@ def test_run_time():
     file_temp.write("update_local_test_3.txt remote_update")
     file_temp.close()
     # 9.远程删除文件
-    os.remove(test_remote_path + os.path.sep + "test" + os.path.sep + "update_local_test_1.txt")
-    os.remove(test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "update_local_test_2.txt")
+    os.remove(test_remote_path + os.path.sep + "test" + os.path.sep + "delete_local_test_1.txt")
+    os.remove(test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "delete_local_test_2.txt")
     os.remove(
-        test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "test3" + os.path.sep + "update_local_test_3.txt")
-    # 10.
+        test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "test3" + os.path.sep + "delete_local_test_3.txt")
+    # 10.本地增量push、远程增量pull
     path.local_path = test_local_path
     path.udisk_path = test_udisk_path
     sync.incrementally_push()
