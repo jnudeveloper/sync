@@ -233,7 +233,7 @@ def incrementally_push():
         move_to_udisk(path.local_path, path.udisk_path, diff_node)
         # 修改sync_hash_udisk上相应节点中的content_hash
         sync_hash_udisk.change_content_hashcode_by_name_hashcode(
-            diff_node.get_name_hashcode(), diff_node.get_content_hashcode)
+            diff_node.get_name_hashcode(), diff_node.get_content_hashcode())
 
     # 根据add_in_local数组， 把本地新增的文件复制到U盘 shiweihua
     for add_in_local_node in add_in_local:
