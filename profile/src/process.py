@@ -51,8 +51,6 @@ def run():
         path.udisk_path = path.get_valid_path_with_project_same_name_and_all_the_project(prompt.prompt_udisk_path)
         # 将U盘.sync目录下的同步目录同步到本地并将U盘的.synchash文件复制到本地 shiweihua
         sync.fully_pull(path.udisk_path, path.local_path)
-        # 将U盘.sync目录下的同步目录删除 shiweihua
-        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
         print "执行全量pull完成，程序正常退出！"
         exit()
     elif num == 4:  # 全量push
@@ -63,9 +61,6 @@ def run():
         sync.init_local()
         # 将本地的所有文件复制到U盘的全量目录下 shiweihua
         sync.fully_push(path.local_path, path.udisk_path)
-        # 将本地的.synchash文件复制到U盘 shiweihua
-        shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
-                     path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
         print "执行全量push完成，程序正常退出！"
         exit()
     elif num == 5:  # 手动删除U盘上的全量目录
