@@ -60,12 +60,9 @@ def test_run_time():
     sync.init_udisk()
     # 3.1.全量push
     sync.fully_push(path.local_path, path.udisk_path)
-    shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
-                 path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
     # 3.2.全量pull
     path.local_path = test_remote_path
     sync.fully_pull(path.udisk_path, path.local_path)
-    shutil.rmtree(path.udisk_path + os.path.sep + ".sync" + os.path.sep + ".all")
     # 4.本地新增文件
     file_temp = file(test_local_path + os.path.sep + "test" + os.path.sep + "add_local_test_1.txt", "w")
     file_temp.write("add_local_test_1.txt")
