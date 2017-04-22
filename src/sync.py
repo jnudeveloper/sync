@@ -90,6 +90,8 @@ def fully_pull(udisk_path, local_path):
     os.mkdir(local_path + os.sep + ".sync")
     shutil.copy2(udisk_path + os.sep + ".sync" + os.sep + ".synchash",
                  local_path + os.sep + ".sync" + os.sep + ".synchash")
+    # 将U盘.sync目录下的同步目录删除 shiweihua
+    shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
 
 
 # @author shiweihua
@@ -107,6 +109,9 @@ def fully_push(local_path, udisk_path):
                 copytree(full_src_path, full_dst_dir + os.sep + folder)
             elif os.path.isfile(full_src_path):
                 shutil.copy2(full_src_path, full_dst_dir)
+    # 将本地的.synchash文件复制到U盘 shiweihua
+    shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
+                 path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
 
 
 # 由于synchash.fill_sync_hash_list(sync_hash_list)还未实现，所以这个函数没有测试 shiweihua

@@ -186,14 +186,11 @@ class TestSync(unittest.TestCase):
         sync.init_udisk()
         # 将local全量同步到udisk上
         sync.fully_push(path.local_path, path.udisk_path)
-        shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
-                     path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
 
         # 将U盘上的全量同步到remote上
         path.local_path = os.path.abspath(os.curdir) + os.path.sep + "remote_sync"
         path.udisk_path = os.path.abspath(os.curdir) + os.path.sep + "udisk_sync"
         sync.fully_pull(path.udisk_path, path.local_path)
-        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
 
         # local上新增了文件
         file_temp = file("local_sync" + os.path.sep + "local_new.py", "w")
@@ -224,12 +221,9 @@ class TestSync(unittest.TestCase):
         sync.init_local()
         sync.init_udisk()
         sync.fully_push(path.local_path, path.udisk_path)
-        shutil.copy2(path.local_path + os.sep + ".sync" + os.sep + ".synchash",
-                     path.udisk_path + os.sep + ".sync" + os.sep + ".synchash")
 
         path.local_path = "E:" + os.path.sep + "sync_remote" + os.path.sep + "test"
         sync.fully_pull(path.udisk_path, path.local_path)
-        shutil.rmtree(path.udisk_path + os.sep + ".sync" + os.sep + ".all")
 
 
 # 测试方法：move_one_file(src, sync_path, relative_path)
