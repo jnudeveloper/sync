@@ -1,16 +1,16 @@
 # coding=utf-8
 # 内存测试
 # 使用方法：在本目录下执行 "python -m memory_profiler memory.py"
-
+from memory_profiler import profile
 import os
 import shutil
 import path
 import sync
 
 
-@profile
+@profile(precision=3)
 def test_run_time():
-    test_path = "test-70"
+    test_path = "test-100"
     test_local_path = "." + os.path.sep + "local_sync" + os.path.sep + test_path
     test_udisk_path = "." + os.path.sep + "udisk_sync" + os.path.sep + test_path
     test_remote_path = "." + os.path.sep + "remote_sync" + os.path.sep + test_path
