@@ -8,12 +8,11 @@ import path
 import sync
 
 
-@profile(precision=3)
+@profile(precision=4)
 def test_run_time():
-    test_path = "test-100"
-    test_local_path = "." + os.path.sep + "local_sync" + os.path.sep + test_path
-    test_udisk_path = "." + os.path.sep + "udisk_sync" + os.path.sep + test_path
-    test_remote_path = "." + os.path.sep + "remote_sync" + os.path.sep + test_path
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
     if os.path.exists(test_local_path + os.path.sep + ".sync"):
         shutil.rmtree(test_local_path + os.path.sep + ".sync")
     if os.path.exists(test_local_path + os.path.sep + "test"):

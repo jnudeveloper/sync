@@ -39,10 +39,9 @@ def incrementally_pull():
 
 
 def test_cpu_time():
-    test_path = "test-10"
-    test_local_path = "F:\\jnu\\test-data" + os.path.sep + "local_sync" + os.path.sep + test_path
-    test_udisk_path = "F:\\jnu\\test-data" + os.path.sep + "udisk_sync" + os.path.sep + test_path
-    test_remote_path = "F:\\jnu\\test-data" + os.path.sep + "remote_sync" + os.path.sep + test_path
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
     if os.path.exists(test_local_path + os.path.sep + ".sync"):
         shutil.rmtree(test_local_path + os.path.sep + ".sync")
     if os.path.exists(test_local_path + os.path.sep + "test"):
