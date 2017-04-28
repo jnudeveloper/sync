@@ -1,19 +1,53 @@
 # coding=utf-8
-# 性能测试：测试程序运行时占用的cpu时间
-# 使用方法：在本目录下执行 "kernprof -l -v cpu_time1.py"
-
+# 内存测试
+# 使用方法：在本目录下执行 "python -m memory_profiler memory.py"
+from memory_profiler import profile
 import os
 import shutil
 import path
 import sync
 
-# 注意：这里会正确执行不报错
-@profile
-def test_cpu_time():
-    test_path = "test-10"
-    test_local_path = "F:\\jnu\\test-data" + os.path.sep + "local_sync" + os.path.sep + test_path
-    test_udisk_path = "F:\\jnu\\test-data" + os.path.sep + "udisk_sync" + os.path.sep + test_path
-    test_remote_path = "F:\\jnu\\test-data" + os.path.sep + "remote_sync" + os.path.sep + test_path
+
+# 初始化
+@profile(precision=8)
+def init_local():
+    sync.init_local()
+
+
+# 初始化
+@profile(precision=8)
+def init_udisk():
+    sync.init_udisk()
+
+
+# 全量push
+@profile(precision=8)
+def fully_push(local_path, udisk_path):
+    sync.fully_push(local_path, udisk_path)
+
+
+# 全量pull
+@profile(precision=8)
+def fully_pull(udisk_path, local_path):
+    sync.fully_pull(udisk_path, local_path)
+
+
+# 本地增量push
+@profile(precision=8)
+def incrementally_push():
+    sync.incrementally_push()
+
+
+# 远程增量pull
+@profile(precision=8)
+def incrementally_pull():
+    sync.incrementally_pull()
+
+
+def tmp1():
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
     if os.path.exists(test_local_path + os.path.sep + ".sync"):
         shutil.rmtree(test_local_path + os.path.sep + ".sync")
     if os.path.exists(test_local_path + os.path.sep + "test"):
@@ -53,18 +87,14 @@ def test_cpu_time():
         "w")
     file_temp.write("delete_local_test_3.txt")
     file_temp.close()
-
     path.local_path = test_local_path
     path.udisk_path = test_udisk_path
-    # 2.初始化
-    sync.init_local()
-    sync.init_udisk()
-    # 3.1.全量push
-    sync.fully_push(path.local_path, path.udisk_path)
-    # 3.2.全量pull
-    path.local_path = test_remote_path
-    sync.fully_pull(path.udisk_path, path.local_path)
-    # 4.本地新增文件
+
+
+def tmp2():
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
     file_temp = file(test_local_path + os.path.sep + "test" + os.path.sep + "add_local_test_1.txt", "w")
     file_temp.write("add_local_test_1.txt")
     file_temp.close()
@@ -126,6 +156,24 @@ def test_cpu_time():
     os.remove(test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "delete_local_test_2.txt")
     os.remove(
         test_remote_path + os.path.sep + "test" + os.path.sep + "test2" + os.path.sep + "test3" + os.path.sep + "delete_local_test_3.txt")
+
+
+@profile(precision=3)
+def test_run_time():
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
+    tmp1()
+    # 2.初始化
+    sync.init_local()
+    sync.init_udisk()
+    # 3.1.全量push
+    sync.fully_push(path.local_path, path.udisk_path)
+    # 3.2.全量pull
+    path.local_path = test_remote_path
+    sync.fully_pull(path.udisk_path, path.local_path)
+    # 4.本地新增文件
+    tmp2()
     # 10.本地增量push、远程增量pull
     path.local_path = test_local_path
     path.udisk_path = test_udisk_path
@@ -134,13 +182,6 @@ def test_cpu_time():
     sync.incrementally_pull()
 
 
-if __name__ == "__main__":
-    test_cpu_time()
-
-
-
-
-
-
-
-
+# 使用方法：在本目录下执行 "python -m memory_profiler memory.py"
+if __name__ == '__main__':
+    test_run_time()

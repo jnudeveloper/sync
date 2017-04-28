@@ -1,6 +1,8 @@
 # coding=utf-8
 # 内存测试的例子
 # 使用方法：在本目录下执行 "python -m memory_profiler test2.py"
+from memory_profiler import profile
+
 
 @profile
 def my_func():

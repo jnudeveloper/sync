@@ -6,6 +6,11 @@ import os
 local_path = ''
 udisk_path = ''
 
+test_relative_path = "test-10"  # 相对路径，测试时更改这里就行
+test_local_path_root = "E:" + os.path.sep + "local_sync"  # 本地根目录
+test_udisk_path_root = "F:" + os.path.sep + "udisk_sync"  # U盘根目录
+test_remote_path_root = "E:" + os.path.sep + "remote_sync"  # 远程根目录
+
 
 # 路径有效 和 路径存在项目
 # 目录存在、可读、可写、存在项目

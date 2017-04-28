@@ -1,19 +1,17 @@
 # coding=utf-8
-# 内存测试
-# 使用方法：在本目录下执行 "python -m memory_profiler memory.py"
+# 性能测试：测试程序运行时间
 
+import cProfile
 import os
 import shutil
-import path
-import sync
+from src import path
+from src import sync
 
 
-@profile
 def test_run_time():
-    test_path = "test-70"
-    test_local_path = "." + os.path.sep + "local_sync" + os.path.sep + test_path
-    test_udisk_path = "." + os.path.sep + "udisk_sync" + os.path.sep + test_path
-    test_remote_path = "." + os.path.sep + "remote_sync" + os.path.sep + test_path
+    test_local_path = path.test_local_path_root + os.path.sep + path.test_relative_path
+    test_udisk_path = path.test_udisk_path_root + os.path.sep + path.test_relative_path
+    test_remote_path = path.test_remote_path_root + os.path.sep + path.test_relative_path
     if os.path.exists(test_local_path + os.path.sep + ".sync"):
         shutil.rmtree(test_local_path + os.path.sep + ".sync")
     if os.path.exists(test_local_path + os.path.sep + "test"):
@@ -134,6 +132,4 @@ def test_run_time():
     sync.incrementally_pull()
 
 
-# 使用方法：在本目录下执行 "python -m memory_profiler memory.py"
-if __name__ == '__main__':
-    test_run_time()
+cProfile.run("test_run_time()")
