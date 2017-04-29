@@ -2,14 +2,7 @@
 # 路径（目录）的操作：判断路径是否有效等
 import prompt
 import os
-
-local_path = ''
-udisk_path = ''
-
-test_relative_path = "test-10"  # 相对路径，测试时更改这里就行
-test_local_path_root = "E:" + os.path.sep + "local_sync"  # 本地根目录
-test_udisk_path_root = "F:" + os.path.sep + "udisk_sync"  # U盘根目录
-test_remote_path_root = "E:" + os.path.sep + "remote_sync"  # 远程根目录
+import path
 
 
 # 路径有效 和 路径存在项目
@@ -29,11 +22,11 @@ def is_path_valid_and_is_path_empty(path):
 # 目录存在、可读、可写、存在项目、同名
 # 符合要求返回True，否则返回False
 # author 李国雄
-def is_path_valid_and_is_project_exists_and_is_dir_same(path):
+def is_path_valid_and_is_project_exists_and_is_dir_same(input_path):
     path_valid = True
-    if not is_path_valid_and_is_project_exists(path):
+    if not is_path_valid_and_is_project_exists(input_path):
         path_valid = False
-    elif not is_current_dir_same(path, local_path):
+    elif not is_current_dir_same(input_path, path.local_path):
         path_valid = False
     return path_valid
 
