@@ -38,7 +38,7 @@ class MyFrame1(wx.Frame):
 
         bSizer3 = wx.BoxSizer(wx.VERTICAL)
 
-        sbSizer1 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, u"label"), wx.VERTICAL)
+        sbSizer1 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, u"选择"), wx.VERTICAL)
 
         gSizer1 = wx.GridSizer(0, 2, 0, 0)
 
@@ -80,6 +80,8 @@ class MyFrame1(wx.Frame):
 
         self.m_button8 = wx.Button(sbSizer1.GetStaticBox(), wx.ID_ANY, u"8.退出程序", wx.DefaultPosition, wx.DefaultSize, 0)
         gSizer1.Add(self.m_button8, 0, wx.ALIGN_CENTER | wx.ALL, 5)
+        self.m_button8.Bind(wx.EVT_BUTTON, self.on_button8_click_event)
+
 
         sbSizer1.Add(gSizer1, 1, wx.EXPAND, 5)
 
@@ -89,7 +91,7 @@ class MyFrame1(wx.Frame):
 
         bSizer4 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_staticText3 = wx.StaticText(self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_staticText3 = wx.StaticText(self, wx.ID_ANY, u"欢迎使用Sync同步软件", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_staticText3.Wrap(-1)
         bSizer4.Add(self.m_staticText3, 0, wx.ALL, 5)
 

@@ -109,7 +109,8 @@ class MyFrame(gui.MyFrame1):
             self.m_staticText3.SetLabelText("路径选择错误，请重新选择")
 
     def on_button8_click_event(self, event):
-        exit()
+        self.Close()
+
 
 
 class MyApp(wx.App):
