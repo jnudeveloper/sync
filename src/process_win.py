@@ -111,6 +111,26 @@ class MyFrame(gui.MyFrame1):
     def on_button8_click_event(self, event):
         self.Close()
 
+    def ReStart(self,event):
+        self.Close()
+        run()
+
+    def ReSet(self,event):
+        self.m_dirPicker1.SetPath("")
+        self.m_dirPicker2.SetPath("")
+
+    def Help(self,event):
+        HelpStatement="""
+        1.增量pull：将U盘上的信息更新到本地
+        2.增量push：将本地的更改更新到U盘
+        3.全量pull：更新空的远程目录
+        4.全量push: 更新空的U盘目录
+        5.删除U盘上不再需要的全量目录，减少存储空间的占用
+        6.初始化本地已有的同步目录
+        7.初始化U盘上的同步目录
+        """
+        dlg=wx.MessageDialog(parent=None,message=HelpStatement,caption="使用帮助")
+        dlg.ShowModal()
 
 
 class MyApp(wx.App):

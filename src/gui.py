@@ -5,10 +5,30 @@ import wx.xrc
 
 class MyFrame1(wx.Frame):
     def __init__(self, parent):
-        wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=wx.EmptyString, pos=wx.DefaultPosition,
+        wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u'Sync', pos=wx.DefaultPosition,
                           size=wx.Size(461, 356), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
         self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+
+        self.m_menubar1 = wx.MenuBar(0)
+        self.m_menu1 = wx.Menu()
+        self.m_menuItem1 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"重置", wx.EmptyString, wx.ITEM_NORMAL)
+        self.m_menu1.AppendItem(self.m_menuItem1)
+        self.Bind(wx.EVT_MENU,self.ReSet,self.m_menuItem1)
+
+        self.m_menuItem2 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"重启", wx.EmptyString, wx.ITEM_NORMAL)
+        self.m_menu1.AppendItem(self.m_menuItem2)
+        self.Bind(wx.EVT_MENU,self.ReStart,self.m_menuItem2)
+
+        self.m_menuItem3 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"帮助", wx.EmptyString, wx.ITEM_NORMAL)
+        self.m_menu1.AppendItem(self.m_menuItem3)
+        self.Bind(wx.EVT_MENU,self.Help,self.m_menuItem3)
+
+
+        self.m_menubar1.Append(self.m_menu1, u"菜单")
+
+        self.SetMenuBar(self.m_menubar1)
+
 
         bSizer1 = wx.BoxSizer(wx.VERTICAL)
 
@@ -127,4 +147,13 @@ class MyFrame1(wx.Frame):
         event.Skip()
 
     def on_button8_click_event(self, event):
+        event.Skip()
+
+    def ReStart(self,event):
+        event.Skip()
+
+    def ReSet(self,event):
+        event.Skip()
+
+    def Help(self,event):
         event.Skip()
