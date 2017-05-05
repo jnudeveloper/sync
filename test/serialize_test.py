@@ -11,7 +11,7 @@ class TestSerialize(unittest.TestCase):
     # author 李国雄
     def test_serialize_deserialize(self):
         hash_list = synchash.FileHashList()
-        hash_node = synchash.FileHashNode("./__init__.py")
+        hash_node = synchash.FileHashNode(".","./__init__.py")
         hash_list.insert(hash_node)
         serialize.serialize(hash_list, ".")
         hash_list_new = serialize.deserialize(".")
