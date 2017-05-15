@@ -1,6 +1,5 @@
 # coding=utf-8
 import wx
-import wx.xrc
 
 
 class MyFrame1(wx.Frame):
@@ -8,20 +7,20 @@ class MyFrame1(wx.Frame):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u'Sync', pos=wx.DefaultPosition,
                           size=wx.Size(461, 356), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         self.m_menubar1 = wx.MenuBar(0)
         self.m_menu1 = wx.Menu()
         self.m_menuItem1 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"重置", wx.EmptyString, wx.ITEM_NORMAL)
-        self.m_menu1.AppendItem(self.m_menuItem1)
+        self.m_menu1.Append(self.m_menuItem1)
         self.Bind(wx.EVT_MENU,self.ReSet,self.m_menuItem1)
 
         self.m_menuItem2 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"重启", wx.EmptyString, wx.ITEM_NORMAL)
-        self.m_menu1.AppendItem(self.m_menuItem2)
+        self.m_menu1.Append(self.m_menuItem2)
         self.Bind(wx.EVT_MENU,self.ReStart,self.m_menuItem2)
 
         self.m_menuItem3 = wx.MenuItem(self.m_menu1, wx.ID_ANY, u"帮助", wx.EmptyString, wx.ITEM_NORMAL)
-        self.m_menu1.AppendItem(self.m_menuItem3)
+        self.m_menu1.Append(self.m_menuItem3)
         self.Bind(wx.EVT_MENU,self.Help,self.m_menuItem3)
 
 

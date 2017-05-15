@@ -21,5 +21,11 @@ sync/test  单元测试代码、运行时间测试代码
     pip install wxPython
     pip install line_profiler
     pip install memory_profiler
+    pip install py2exe
 3.运行main.py文件（命令行界面）、运行main_win.py文件（图形界面）
 4.运行各个测试脚本可以进行相应的测试
+5.打包为exe程序
+运行src下的文件
+> python setup.py py2exe
+执行该文件，会得到一个build文件夹和一个dist文件夹。
+其中，dist文件夹，就是你得到的打包程序
