@@ -4,11 +4,14 @@
 # 脚本开始时的提示语
 prompt_init = """
 欢迎使用xxx
-1. 本地和U盘都存在项目
-2. 本地存在项目，U盘不存在项目
-3. U盘存在项目，本地不存在项目
-4. 本地和U盘都不存在项目
-5. 退出程序
+1. 增量pull
+2. 增量push
+3. 全量pull
+4. 全量push
+5. 手动删除U盘上的全量目录
+6. 初始化本地已有的项目
+7. 初始化U盘
+8. 退出程序
 """
 
 # 提示用户输入
@@ -21,7 +24,7 @@ prompt_choose_again = """您的输入有误，请重新选择: """
 prompt_local_path = """请输入本地目录："""
 
 # 提示输入U盘目录
-prompt_usb_path = """请输入U盘目录："""
+prompt_udisk_path = """请输入U盘目录："""
 
 # 提示重新输入路径：
 prompt_error_path = """请检查后重新输入目录："""
@@ -35,14 +38,20 @@ prompt_path_is_not_readable = """输入的路径不可读！\n"""
 # 路径不可写
 prompt_path_is_not_writeable = """输入的路径不可写！\n"""
 
-# 路径不存在项目(不存在synchash文件)，即未初始化
-prompt_sync_hash_file_is_not_exist = """输入的路径不存在项目！\n"""
+# 路径不存在项目，即未初始化
+prompt_sync_hash_file_is_not_exists = """输入的路径不存在项目！\n"""
 
-# 本地目录输入成功
+# 路径不存在项目，即未初始化
+prompt_do_not_have_all_the_project = """输入的路径没有全量目录！\n"""
+
+# 输入的路径已经存在项目
+prompt_sync_hash_file_is_exists = """输入的路径已经存在项目! \n """
+
+# udisk路径中文件夹名称和本地的不同
+prompt_path_name_is_not_same = """u盘路径中文件夹名称和本地的不同！\n"""
+
+# udisk路径中文件夹名称和本地的不同
+prompt_path_is_not_empty = """本地目录应该为空，请选择一个空目录！\n"""
+
+# 目录输入成功
 prompt_path_success = """目录输入成功！\n"""
-
-# 选择是否从U盘同步到本地
-prompt_usb_to_local_choose = """是否从U盘同步到本地？（y/n）： """
-
-# 选择是否从本地同步到U盘
-prompt_local_to_usb_choose = """是否从本地同步到U盘？（y/n）： """

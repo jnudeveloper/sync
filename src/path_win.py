@@ -2,14 +2,7 @@
 # 路径（目录）的操作：判断路径是否有效等
 import prompt
 import os
-
-local_path = ''
-udisk_path = ''
-
-test_relative_path = "test-10"  # 相对路径，测试时更改这里就行
-test_local_path_root = "E:" + os.path.sep + "local_sync"  # 本地根目录
-test_udisk_path_root = "F:" + os.path.sep + "udisk_sync"  # U盘根目录
-test_remote_path_root = "E:" + os.path.sep + "remote_sync"  # 远程根目录
+import path
 
 
 # 路径有效 和 路径存在项目
@@ -21,7 +14,6 @@ def is_path_valid_and_is_path_empty(path):
     if not is_path_valid(path):
         path_valid = False
     elif not is_path_empty(path):
-        print prompt.prompt_path_is_not_empty
         path_valid = False
     return path_valid
 
@@ -30,12 +22,11 @@ def is_path_valid_and_is_path_empty(path):
 # 目录存在、可读、可写、存在项目、同名
 # 符合要求返回True，否则返回False
 # author 李国雄
-def is_path_valid_and_is_project_exists_and_is_dir_same(path):
+def is_path_valid_and_is_project_exists_and_is_dir_same(input_path):
     path_valid = True
-    if not is_path_valid_and_is_project_exists(path):
+    if not is_path_valid_and_is_project_exists(input_path):
         path_valid = False
-    elif not is_current_dir_same(path, local_path):
-        print prompt.prompt_path_name_is_not_same
+    elif not is_current_dir_same(input_path, path.local_path):
         path_valid = False
     return path_valid
 
@@ -49,7 +40,6 @@ def is_path_valid_and_is_project_exists(path):
     if not is_path_valid(path):
         path_valid = False
     elif not is_project_exists(path):
-        print prompt.prompt_sync_hash_file_is_not_exists
         path_valid = False
     return path_valid
 
@@ -63,7 +53,6 @@ def is_path_valid_and_is_project_exists_and_is_dir_sameand_has_all_the_project(p
     if not is_path_valid_and_is_project_exists_and_is_dir_same(path):
         path_valid = False
     elif not is_path_have_all_the_project(path):
-        print prompt.prompt_do_not_have_all_the_project
         path_valid = False
     return path_valid
 
@@ -77,7 +66,6 @@ def is_path_valid_and_is_project_not_exists(path):
     if not is_path_valid(path):
         path_valid = False
     elif is_project_exists(path):
-        print prompt.prompt_sync_hash_file_is_exists
         path_valid = False
     return path_valid
 
@@ -90,14 +78,11 @@ def is_path_valid(path):
     path_valid = True
     if not os.path.exists(path):
         # 目录不存在
-        print prompt.prompt_path_is_not_exist
         path_valid = False
     elif not is_readable(path):
-        print prompt.prompt_path_is_not_readable
         # 目录不可读
         path_valid = False
     elif not is_writeable(path):
-        print prompt.prompt_path_is_not_writeable
         # 目录不可写
         path_valid = False
     return path_valid
@@ -267,29 +252,3 @@ def delete_last_slash(path):
 def add_last_slash(path):
     path = delete_last_slash(path)
     return path + os.sep
-
-
-# @author shiwehua
-#  遍历给出的目录，以数组形式返回目录下的所有文件的路径
-# review一下看有没有错 shiweihua （所以有没有问题？ by shiweihua）(可以了，没问题  by 李国雄)
-def traverse_sync(path):
-    file_path_arr = []
-    for root, dirs, files in os.walk(path):
-        for files_path in files:
-            file_path_arr.append(os.path.join(root, files_path))
-    return file_path_arr
-
-
-# @author shiwehua
-# 获取同步目录下除.sync目录下的所有文件路径，返回一个所有路径的数组
-def get_all_file_path(sync_path):
-    file_path_arr = []
-    folders = os.listdir(sync_path)
-    for folder in folders:
-        if folder == ".sync":
-            pass
-        elif os.path.isfile(sync_path + os.sep + folder):
-            file_path_arr.append(sync_path + os.sep + folder)
-        elif os.path.isdir(sync_path + os.sep + folder):
-            file_path_arr.extend(traverse_sync(sync_path + os.sep + folder))
-    return file_path_arr

@@ -5,6 +5,7 @@ import process
 
 # 主函数，整个脚本的入口
 def main():
-    process.init_input()
+    process.run()
+
 
 main()
